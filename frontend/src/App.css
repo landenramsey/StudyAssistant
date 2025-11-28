@@ -98,7 +98,23 @@
   z-index: 1;
 }
 
-.app-header p {
+.uncw-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(0, 102, 204, 0.9);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.app-header p:not(.uncw-badge) {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.3rem;
   font-weight: 400;

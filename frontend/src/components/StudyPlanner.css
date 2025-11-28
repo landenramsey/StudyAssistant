@@ -1,0 +1,295 @@
+.study-planner {
+  max-width: 1000px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.planner-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  margin-top: 30px;
+}
+
+.timer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.session-selector {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.session-selector button {
+  padding: 12px 24px;
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.session-selector button:hover:not(:disabled) {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.session-selector button.active {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.session-selector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.timer-display {
+  padding: 60px 40px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  border: 3px solid;
+  transition: all 0.4s ease;
+  background: white;
+}
+
+.timer-display.pomodoro {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0.1) 100%);
+}
+
+.timer-display.short-break {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.1) 100%);
+}
+
+.timer-display.long-break {
+  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.1) 100%);
+}
+
+.timer-time {
+  font-size: 5rem;
+  font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 30px;
+  letter-spacing: -3px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.timer-button {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timer-button.start {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+}
+
+.timer-button.pause {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  box-shadow: 0 6px 25px rgba(245, 158, 11, 0.4);
+}
+
+.timer-button.reset {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+}
+
+.timer-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+}
+
+.button-icon {
+  font-size: 20px;
+}
+
+.session-stats {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 16px;
+  border: 2px solid rgba(99, 102, 241, 0.15);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: #475569;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+}
+
+.stat-icon {
+  font-size: 20px;
+  color: #6366f1;
+}
+
+.goals-section {
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+  border-radius: 24px;
+  border: 2px solid rgba(99, 102, 241, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.goals-section h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-icon-small {
+  font-size: 1.8rem;
+  color: #6366f1;
+}
+
+.goal-input {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.goal-input input {
+  flex: 1;
+  padding: 14px 20px;
+  border: 2px solid rgba(99, 102, 241, 0.25);
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.goal-input input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.add-goal-button {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.add-goal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goal-item {
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+}
+
+.goal-item:hover {
+  border-color: #6366f1;
+  transform: translateX(8px);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+}
+
+.goal-item.completed {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  text-decoration: line-through;
+  color: #64748b;
+}
+
+.goal-check {
+  font-size: 20px;
+  color: #6366f1;
+  flex-shrink: 0;
+}
+
+.goal-item.completed .goal-check {
+  color: #10b981;
+}
+
+.empty-goals {
+  text-align: center;
+  color: #94a3b8;
+  padding: 40px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .planner-content {
+    grid-template-columns: 1fr;
+  }
+
+  .timer-time {
+    font-size: 3.5rem;
+  }
+}
+

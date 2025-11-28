@@ -3,8 +3,10 @@ import DocumentUpload from './components/DocumentUpload';
 import ChatInterface from './components/ChatInterface';
 import QuizGenerator from './components/QuizGenerator';
 import FlashcardGenerator from './components/FlashcardGenerator';
+import StudyPlanner from './components/StudyPlanner';
+import UNCWResources from './components/UNCWResources';
 import { checkHealth } from './services/api';
-import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiWifi, FiWifiOff } from 'react-icons/fi';
+import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiWifi, FiWifiOff, FiClock, FiMapPin } from 'react-icons/fi';
 import { HiAcademicCap } from 'react-icons/hi2';
 import './App.css';
 
@@ -46,6 +48,7 @@ function App() {
           <HiAcademicCap />
         </div>
         <h1>Study Assistant</h1>
+        <p className="uncw-badge">For UNC Wilmington Students</p>
         <p>Transform your study materials into interactive learning tools</p>
       </header>
 
@@ -78,6 +81,20 @@ function App() {
           <FiLayers className="tab-icon" />
           <span>Flashcards</span>
         </button>
+        <button
+          className={activeTab === 'planner' ? 'active' : ''}
+          onClick={() => setActiveTab('planner')}
+        >
+          <FiClock className="tab-icon" />
+          <span>Study Planner</span>
+        </button>
+        <button
+          className={activeTab === 'resources' ? 'active' : ''}
+          onClick={() => setActiveTab('resources')}
+        >
+          <FiMapPin className="tab-icon" />
+          <span>UNCW Resources</span>
+        </button>
       </nav>
 
       <main className="main-content">
@@ -85,6 +102,8 @@ function App() {
         {activeTab === 'chat' && <ChatInterface documents={documents} />}
         {activeTab === 'quiz' && <QuizGenerator documents={documents} />}
         {activeTab === 'flashcards' && <FlashcardGenerator documents={documents} />}
+        {activeTab === 'planner' && <StudyPlanner />}
+        {activeTab === 'resources' && <UNCWResources />}
       </main>
     </div>
   );
