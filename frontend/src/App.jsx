@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SignIn from './components/SignIn';
 import LandingPage from './components/LandingPage';
 import DocumentUpload from './components/DocumentUpload';
 import ChatInterface from './components/ChatInterface';
@@ -7,15 +8,27 @@ import FlashcardGenerator from './components/FlashcardGenerator';
 import StudyPlanner from './components/StudyPlanner';
 import UNCWResources from './components/UNCWResources';
 import { checkHealth } from './services/api';
-import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiWifi, FiWifiOff, FiClock, FiMapPin } from 'react-icons/fi';
+import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiWifi, FiWifiOff, FiClock, FiMapPin, FiHome, FiLogOut } from 'react-icons/fi';
 import { HiAcademicCap } from 'react-icons/hi2';
 import './App.css';
 
 function App() {
-  const [showLanding, setShowLanding] = useState(true);
+  const [user, setUser] = useState(null);
+  const [showSignIn, setShowSignIn] = useState(true);
+  const [showLanding, setShowLanding] = useState(false);
   const [activeTab, setActiveTab] = useState('chat');
   const [documents, setDocuments] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    // Check if user is already signed in
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+      setShowSignIn(false);
+      setShowLanding(false);
+    }
+  }, []);
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -28,6 +41,27 @@ function App() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleSignIn = (userData) => {
+    setUser(userData);
+    setShowSignIn(false);
+    setShowLanding(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    setShowSignIn(true);
+    setShowLanding(false);
+  };
+
+  const handleBackToLanding = () => {
+    setShowLanding(true);
+  };
+
+  if (showSignIn) {
+    return <SignIn onSignIn={handleSignIn} />;
+  }
 
   if (showLanding) {
     return <LandingPage onGetStarted={() => setShowLanding(false)} />;
@@ -48,9 +82,21 @@ function App() {
           </>
         )}
       </div>
+
+      <div className="nav-actions">
+        <button onClick={handleBackToLanding} className="nav-button home-button" title="Back to Home">
+          <FiHome className="nav-icon" />
+          <span>Home</span>
+        </button>
+        <button onClick={handleLogout} className="nav-button logout-button" title="Sign Out">
+          <FiLogOut className="nav-icon" />
+          <span>Sign Out</span>
+        </button>
+      </div>
       
       <header className="app-header">
         <div className="uncw-logo-header">
+          <div className="seahawk-logo">🦅</div>
           <HiAcademicCap className="header-logo-icon" />
           <div className="header-logo-text">
             <span className="header-uncw">UNCW</span>
@@ -59,6 +105,9 @@ function App() {
         </div>
         <h1>Study Assistant</h1>
         <p className="uncw-badge">For UNC Wilmington Students</p>
+        {user && (
+          <p className="user-info">Welcome, {user.username}! • {user.major} • {user.year}</p>
+        )}
         <p>Transform your study materials into interactive learning tools</p>
       </header>
 
@@ -109,7 +158,7 @@ function App() {
 
       <main className="main-content">
         {activeTab === 'upload' && <DocumentUpload onUpload={(doc) => setDocuments([...documents, doc])} />}
-        {activeTab === 'chat' && <ChatInterface documents={documents} />}
+        {activeTab === 'chat' && <ChatInterface documents={documents} user={user} />}
         {activeTab === 'quiz' && <QuizGenerator documents={documents} />}
         {activeTab === 'flashcards' && <FlashcardGenerator documents={documents} />}
         {activeTab === 'planner' && <StudyPlanner />}

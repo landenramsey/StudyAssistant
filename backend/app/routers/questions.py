@@ -17,7 +17,9 @@ async def ask_question(request: QuestionRequest):
     """Answer a question using RAG."""
     result = rag_service.answer_question(
         question=request.question,
-        document_ids=request.document_ids
+        document_ids=request.document_ids,
+        user_major=request.user_major,
+        user_year=request.user_year
     )
     
     return QuestionResponse(

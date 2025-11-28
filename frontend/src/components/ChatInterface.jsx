@@ -3,7 +3,7 @@ import { askQuestion } from '../services/api';
 import { FiMessageCircle, FiSend, FiLoader, FiFileText, FiTrendingUp } from 'react-icons/fi';
 import './ChatInterface.css';
 
-function ChatInterface({ documents }) {
+function ChatInterface({ documents, user }) {
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,12 @@ function ChatInterface({ documents }) {
     setQuestion('');
 
     try {
-      const response = await askQuestion(question);
+      const response = await askQuestion(
+        question,
+        null,
+        user?.major || null,
+        user?.year || null
+      );
       const assistantMessage = {
         role: 'assistant',
         content: response.answer,
@@ -64,7 +69,7 @@ function ChatInterface({ documents }) {
         {messages.map((msg, idx) => (
           <div key={idx} className={`message ${msg.role}`}>
             <div className="message-content">{msg.content}</div>
-            {msg.sources && msg.sources.length > 0 && (
+            {msg.sources && Array.isArray(msg.sources) && msg.sources.length > 0 && (
               <div className="sources">
                 <div className="sources-header">
                   <FiFileText className="sources-icon" />
@@ -72,13 +77,15 @@ function ChatInterface({ documents }) {
                 </div>
                 {msg.sources.map((source, i) => (
                   <div key={i} className="source">
-                    <span className="source-text">{source.text}</span>
-                    <div className="source-meta">
-                      <span className="source-score">
-                        <FiTrendingUp className="score-icon" />
-                        {source.score.toFixed(2)}
-                      </span>
-                    </div>
+                    <span className="source-text">{source.text || source}</span>
+                    {source.score !== undefined && (
+                      <div className="source-meta">
+                        <span className="source-score">
+                          <FiTrendingUp className="score-icon" />
+                          {typeof source.score === 'number' ? source.score.toFixed(2) : source.score}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

@@ -35,10 +35,12 @@ export const uploadDocument = async (file) => {
   return response.data;
 };
 
-export const askQuestion = async (question, documentIds = null) => {
+export const askQuestion = async (question, documentIds = null, userMajor = null, userYear = null) => {
   const response = await api.post('/api/questions/ask', {
     question,
     document_ids: documentIds,
+    user_major: userMajor,
+    user_year: userYear,
   });
   return response.data;
 };

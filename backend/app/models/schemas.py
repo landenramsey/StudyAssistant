@@ -14,6 +14,8 @@ class DocumentResponse(BaseModel):
 class QuestionRequest(BaseModel):
     question: str
     document_ids: Optional[List[str]] = None
+    user_major: Optional[str] = None
+    user_year: Optional[str] = None
 
 class QuestionResponse(BaseModel):
     answer: str

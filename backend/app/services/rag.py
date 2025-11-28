@@ -37,7 +37,9 @@ class RAGService:
         self, 
         question: str, 
         document_ids: Optional[List[str]] = None,
-        top_k: int = 5
+        top_k: int = 5,
+        user_major: Optional[str] = None,
+        user_year: Optional[str] = None
     ) -> dict:
         """
         Answer a question using RAG.
@@ -69,35 +71,63 @@ class RAGService:
         if has_results:
             context = "\n\n".join([f"[Source {i+1}]: {r['text']}" for i, r in enumerate(results)])
         
+        # Build user context for personalization
+        user_context = ""
+        if user_major:
+            user_context += f"The student is a {user_major} major"
+            if user_year:
+                user_context += f" in their {user_year} year"
+            user_context += ". "
+            user_context += "Tailor your answer to be relevant to their field of study. Use examples and terminology appropriate for their major when helpful. "
+        
         # Generate answer using LLM - support both document-based and general questions
         if has_results:
             # Document-based answer
-            prompt = f"""You are a helpful study assistant for UNC Wilmington students. Answer the following question based on the provided context from the user's study materials.
+            prompt = f"""You are an expert study assistant for UNC Wilmington students. {user_context}Answer the following question based on the provided context from the user's study materials. Provide a comprehensive, detailed answer that demonstrates deep understanding.
 
-Context:
+Context from uploaded documents:
 {context}
 
 Question: {question}
 
-Provide a clear, concise answer. Cite which sources you used (e.g., "According to Source 1..."). If the context doesn't fully answer the question, you can supplement with your general knowledge.
+Instructions:
+- Provide a thorough, in-depth answer that shows deep understanding of the topic
+- Explain concepts clearly and comprehensively
+- Use examples relevant to the student's field when appropriate
+- Cite which sources you used (e.g., "According to Source 1...")
+- If the context doesn't fully answer the question, supplement with your extensive knowledge
+- Break down complex concepts into understandable parts
+- Connect ideas and show relationships between concepts
 
 Answer:"""
         else:
             # General question - no documents or no relevant results
             if has_documents:
-                prompt = f"""You are a helpful study assistant for UNC Wilmington students. The user asked a question, but no relevant information was found in their uploaded documents. Answer the question using your general knowledge.
+                prompt = f"""You are an expert study assistant for UNC Wilmington students. {user_context}The user asked a question, but no relevant information was found in their uploaded documents. Answer the question using your extensive knowledge. Provide a comprehensive, detailed explanation.
 
 Question: {question}
 
-Provide a clear, helpful answer. You can mention that this answer is based on general knowledge rather than their uploaded documents.
+Instructions:
+- Provide a thorough, in-depth answer that demonstrates deep understanding
+- Explain concepts clearly and comprehensively
+- Use examples relevant to the student's field when appropriate
+- Break down complex concepts into understandable parts
+- Connect ideas and show relationships between concepts
+- You can mention that this answer is based on general knowledge rather than their uploaded documents
 
 Answer:"""
             else:
-                prompt = f"""You are a helpful study assistant for UNC Wilmington students. Answer the following question. The user hasn't uploaded any documents yet, so answer using your general knowledge.
+                prompt = f"""You are an expert study assistant for UNC Wilmington students. {user_context}Answer the following question. The user hasn't uploaded any documents yet, so answer using your extensive knowledge. Provide a comprehensive, detailed explanation.
 
 Question: {question}
 
-Provide a clear, helpful answer. You can mention that they can upload documents for more specific answers related to their study materials.
+Instructions:
+- Provide a thorough, in-depth answer that demonstrates deep understanding
+- Explain concepts clearly and comprehensively
+- Use examples relevant to the student's field when appropriate
+- Break down complex concepts into understandable parts
+- Connect ideas and show relationships between concepts
+- You can mention that they can upload documents for more specific answers related to their study materials
 
 Answer:"""
         
@@ -105,11 +135,11 @@ Answer:"""
             response = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=[
-                    {"role": "system", "content": "You are a helpful study assistant."},
+                    {"role": "system", "content": "You are an expert study assistant for UNC Wilmington students. Provide comprehensive, detailed answers that demonstrate deep understanding of topics. Break down complex concepts clearly."},
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.7,
-                max_tokens=500
+                max_tokens=1500  # Increased for deeper answers
             )
             
             answer = response.choices[0].message.content
