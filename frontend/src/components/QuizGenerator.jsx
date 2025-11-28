@@ -19,9 +19,18 @@ function QuizGenerator({ documents }) {
 
     try {
       const response = await generateQuiz(topic, numQuestions, questionType);
+      if (response.questions && response.questions.length === 0) {
+        alert('No questions generated. Make sure you have uploaded documents first, or try a different topic.');
+      }
       setQuiz(response);
     } catch (error) {
-      alert('Error generating quiz: ' + (error.response?.data?.detail || error.message));
+      let errorMessage = 'Error generating quiz: ';
+      if (error.message && error.message.includes('Cannot connect')) {
+        errorMessage += 'Please make sure the backend server is running on http://localhost:8000';
+      } else {
+        errorMessage += error.response?.data?.detail || error.message || 'Please try again.';
+      }
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

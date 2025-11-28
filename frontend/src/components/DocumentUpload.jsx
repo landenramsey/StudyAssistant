@@ -28,7 +28,11 @@ function DocumentUpload({ onUpload }) {
       onUpload(response);
       setFile(null);
     } catch (err) {
-      setError(err.response?.data?.detail || 'Upload failed');
+      if (err.message && err.message.includes('Cannot connect')) {
+        setError('Cannot connect to server. Please make sure the backend is running on http://localhost:8000');
+      } else {
+        setError(err.response?.data?.detail || err.message || 'Upload failed. Please try again.');
+      }
     } finally {
       setUploading(false);
     }

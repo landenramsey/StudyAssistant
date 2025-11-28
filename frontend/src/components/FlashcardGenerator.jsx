@@ -18,9 +18,18 @@ function FlashcardGenerator({ documents }) {
 
     try {
       const response = await generateFlashcards(text || null, numCards);
+      if (!response.cards || response.cards.length === 0) {
+        alert('No flashcards generated. Make sure you have uploaded documents first, or provide custom text.');
+      }
       setCards(response.cards || []);
     } catch (error) {
-      alert('Error generating flashcards: ' + (error.response?.data?.detail || error.message));
+      let errorMessage = 'Error generating flashcards: ';
+      if (error.message && error.message.includes('Cannot connect')) {
+        errorMessage += 'Please make sure the backend server is running on http://localhost:8000';
+      } else {
+        errorMessage += error.response?.data?.detail || error.message || 'Please try again.';
+      }
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

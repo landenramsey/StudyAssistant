@@ -26,10 +26,16 @@ function ChatInterface({ documents }) {
       };
       setMessages([...messages, userMessage, assistantMessage]);
     } catch (error) {
+      let errorMessage = 'Sorry, I encountered an error. ';
+      if (error.message && error.message.includes('Cannot connect')) {
+        errorMessage += 'Please make sure the backend server is running on http://localhost:8000';
+      } else {
+        errorMessage += error.response?.data?.detail || error.message || 'Please try again.';
+      }
       setMessages([
         ...messages,
         userMessage,
-        { role: 'assistant', content: 'Error: ' + (error.response?.data?.detail || error.message) },
+        { role: 'assistant', content: errorMessage },
       ]);
     } finally {
       setLoading(false);

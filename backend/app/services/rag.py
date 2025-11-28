@@ -8,7 +8,30 @@ class RAGService:
     def __init__(self, vector_store: VectorStore, embedding_service: EmbeddingService):
         self.vector_store = vector_store
         self.embedding_service = embedding_service
-        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY", ""))
+        
+        # Support both Azure OpenAI and regular OpenAI
+        azure_api_key = os.getenv("AZURE_OPENAI_API_KEY")
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        azure_api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
+        openai_api_key = os.getenv("OPENAI_API_KEY")
+        
+        if azure_api_key and azure_endpoint:
+            # Use Azure OpenAI
+            from openai import AzureOpenAI
+            self.client = AzureOpenAI(
+                api_key=azure_api_key,
+                api_version=azure_api_version,
+                azure_endpoint=azure_endpoint
+            )
+            self.model_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4o-mini")
+            self.use_azure = True
+        elif openai_api_key:
+            # Use regular OpenAI
+            self.client = OpenAI(api_key=openai_api_key)
+            self.model_name = "gpt-4o-mini"
+            self.use_azure = False
+        else:
+            raise ValueError("Either OPENAI_API_KEY or (AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT) must be set")
     
     def answer_question(
         self, 
@@ -37,9 +60,17 @@ class RAGService:
         if document_ids:
             results = [r for r in results if r['document_id'] in document_ids]
         
+        # Check if vector store has any data
+        if self.vector_store.index is None or self.vector_store.index.ntotal == 0:
+            return {
+                "answer": "No documents have been uploaded yet. Please upload documents first before asking questions.",
+                "sources": [],
+                "confidence": 0.0
+            }
+        
         if not results:
             return {
-                "answer": "I couldn't find relevant information in your documents to answer this question.",
+                "answer": "I couldn't find relevant information in your documents to answer this question. Try uploading more documents or rephrasing your question.",
                 "sources": [],
                 "confidence": 0.0
             }
@@ -61,7 +92,7 @@ Answer:"""
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",  # or "gpt-4o" for better quality
+                model=self.model_name,
                 messages=[
                     {"role": "system", "content": "You are a helpful study assistant."},
                     {"role": "user", "content": prompt}
@@ -88,8 +119,21 @@ Answer:"""
                 "confidence": avg_confidence
             }
         except Exception as e:
+            import traceback
+            error_msg = str(e)
+            # Check for common OpenAI API errors
+            if "api_key" in error_msg.lower() or "authentication" in error_msg.lower():
+                error_msg = "Invalid OpenAI API key. Please check your .env file."
+            elif "rate limit" in error_msg.lower():
+                error_msg = "OpenAI API rate limit exceeded. Please try again later."
+            elif "insufficient_quota" in error_msg.lower():
+                error_msg = "OpenAI API quota exceeded. Please check your account billing."
+            
+            print(f"Error in answer_question: {error_msg}")
+            print(traceback.format_exc())
+            
             return {
-                "answer": f"Error generating answer: {str(e)}",
+                "answer": f"Error: {error_msg}",
                 "sources": [],
                 "confidence": 0.0
             }
@@ -103,6 +147,14 @@ Answer:"""
         top_k: int = 10
     ) -> dict:
         """Generate quiz questions from documents."""
+        # Check if vector store has any data
+        if self.vector_store.index is None or self.vector_store.index.ntotal == 0:
+            return {
+                "questions": [], 
+                "topic": topic or "general",
+                "error": "No documents uploaded yet. Please upload documents first."
+            }
+        
         if topic:
             # Search for relevant chunks about the topic
             query_embedding = self.embedding_service.embed_text(topic)
@@ -118,7 +170,11 @@ Answer:"""
             results = [r for r in results if r['document_id'] in document_ids]
         
         if not results:
-            return {"questions": [], "topic": topic or "general"}
+            return {
+                "questions": [], 
+                "topic": topic or "general",
+                "error": "No relevant content found. Try uploading more documents or using a different topic."
+            }
         
         context = "\n\n".join([r['text'] for r in results[:5]])
         
@@ -143,7 +199,7 @@ Format your response as JSON with this structure:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=self.model_name,
                 messages=[
                     {"role": "system", "content": "You are a quiz generator for study materials."},
                     {"role": "user", "content": prompt}
@@ -157,7 +213,19 @@ Format your response as JSON with this structure:
             quiz_data["topic"] = topic or "general"
             return quiz_data
         except Exception as e:
-            return {"questions": [], "topic": topic or "general", "error": str(e)}
+            import traceback
+            error_msg = str(e)
+            if "api_key" in error_msg.lower() or "authentication" in error_msg.lower():
+                error_msg = "Invalid OpenAI API key. Please check your .env file."
+            elif "rate limit" in error_msg.lower():
+                error_msg = "OpenAI API rate limit exceeded. Please try again later."
+            elif "insufficient_quota" in error_msg.lower():
+                error_msg = "OpenAI API quota exceeded. Please check your account billing."
+            
+            print(f"Error in generate_quiz: {error_msg}")
+            print(traceback.format_exc())
+            
+            return {"questions": [], "topic": topic or "general", "error": error_msg}
     
     def generate_flashcards(
         self,
@@ -169,6 +237,13 @@ Format your response as JSON with this structure:
         if text:
             context = text
         else:
+            # Check if vector store has any data
+            if self.vector_store.index is None or self.vector_store.index.ntotal == 0:
+                return {
+                    "cards": [],
+                    "error": "No documents uploaded yet. Please upload documents first or provide custom text."
+                }
+            
             # Get chunks from documents
             results = self.vector_store.search(
                 self.embedding_service.embed_text("key concepts"),
@@ -176,6 +251,13 @@ Format your response as JSON with this structure:
             )
             if document_ids:
                 results = [r for r in results if r['document_id'] in document_ids]
+            
+            if not results:
+                return {
+                    "cards": [],
+                    "error": "No content found. Please upload documents first or provide custom text."
+                }
+            
             context = "\n\n".join([r['text'] for r in results])
         
         prompt = f"""Create {num_cards} flashcards from the following study material. Each flashcard should have:
@@ -201,7 +283,7 @@ Format as JSON:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=self.model_name,
                 messages=[
                     {"role": "system", "content": "You are a flashcard generator."},
                     {"role": "user", "content": prompt}
@@ -213,5 +295,17 @@ Format as JSON:
             import json
             return json.loads(response.choices[0].message.content)
         except Exception as e:
-            return {"cards": [], "error": str(e)}
+            import traceback
+            error_msg = str(e)
+            if "api_key" in error_msg.lower() or "authentication" in error_msg.lower():
+                error_msg = "Invalid OpenAI API key. Please check your .env file."
+            elif "rate limit" in error_msg.lower():
+                error_msg = "OpenAI API rate limit exceeded. Please try again later."
+            elif "insufficient_quota" in error_msg.lower():
+                error_msg = "OpenAI API quota exceeded. Please check your account billing."
+            
+            print(f"Error in generate_flashcards: {error_msg}")
+            print(traceback.format_exc())
+            
+            return {"cards": [], "error": error_msg}
 

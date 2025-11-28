@@ -1,10 +1,10 @@
+# Load environment variables FIRST, before any other imports
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 from app.routers import documents, questions, quizzes, flashcards
-
-# Load environment variables
-load_dotenv()
 
 app = FastAPI(
     title="AI Study Assistant API",
@@ -34,4 +34,37 @@ async def root():
 @app.get("/api/health")
 async def health():
     return {"status": "healthy"}
+
+@app.get("/api/test-openai")
+async def test_openai():
+    """Test OpenAI API connection."""
+    import os
+    from openai import OpenAI
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        return {"status": "error", "message": "OPENAI_API_KEY not found in environment"}
+    
+    try:
+        client = OpenAI(api_key=api_key)
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": "Say 'API test successful' if you can read this."}],
+            max_tokens=10
+        )
+        return {
+            "status": "success",
+            "message": response.choices[0].message.content,
+            "model": "gpt-4o-mini"
+        }
+    except Exception as e:
+        error_msg = str(e)
+        if "api_key" in error_msg.lower() or "authentication" in error_msg.lower():
+            error_msg = "Invalid API key"
+        elif "rate limit" in error_msg.lower():
+            error_msg = "Rate limit exceeded"
+        elif "insufficient_quota" in error_msg.lower():
+            error_msg = "Insufficient quota - check billing"
+        
+        return {"status": "error", "message": error_msg}
 

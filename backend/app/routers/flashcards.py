@@ -14,15 +14,26 @@ rag_service = RAGService(vector_store, embedding_service)
 @router.post("/generate", response_model=FlashcardResponse)
 async def generate_flashcards(request: FlashcardRequest):
     """Generate flashcards from text or documents."""
-    result = rag_service.generate_flashcards(
-        text=request.text,
-        num_cards=request.num_cards,
-        document_ids=request.document_ids
-    )
-    
-    cards = [
-        Flashcard(**c) for c in result.get("cards", [])
-    ]
-    
-    return FlashcardResponse(cards=cards)
+    try:
+        result = rag_service.generate_flashcards(
+            text=request.text,
+            num_cards=request.num_cards,
+            document_ids=request.document_ids
+        )
+        
+        # Check for errors
+        if "error" in result:
+            # Return empty cards with error info
+            return FlashcardResponse(cards=[])
+        
+        cards = [
+            Flashcard(**c) for c in result.get("cards", [])
+        ]
+        
+        return FlashcardResponse(cards=cards)
+    except Exception as e:
+        import traceback
+        print(f"Error in generate_flashcards endpoint: {str(e)}")
+        print(traceback.format_exc())
+        return FlashcardResponse(cards=[])
 

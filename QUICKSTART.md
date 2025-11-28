@@ -1,115 +1,182 @@
-# 🚀 Quick Start Guide for Mac
+# 🚀 Quick Start Guide
 
-## Step 1: Set Up Backend
+## ⚡ Fastest Way to Start (Recommended)
 
-Open Terminal and navigate to the project:
+### One-Command Startup
+
+Simply run:
 
 ```bash
-cd ~/Downloads/Projects/StudyAssistant/backend
+./start.sh
 ```
 
-Create a virtual environment:
+That's it! The script will:
+- ✅ Check and start the backend server
+- ✅ Check and start the frontend server
+- ✅ Open your browser automatically
+- ✅ Show connection status
+
+**To stop everything:**
+```bash
+./stop.sh
+```
+
+---
+
+## 📋 Manual Setup (If Needed)
+
+### Prerequisites
+
+- **Python 3.8+** (check with `python3 --version`)
+- **Node.js 16+** (check with `node --version`)
+- **OpenAI API Key** (get one at https://platform.openai.com/api-keys)
+
+### Step 1: Backend Setup
 
 ```bash
+# Navigate to backend
+cd backend
+
+# Create virtual environment (first time only)
 python3 -m venv venv
-```
 
-Activate the virtual environment:
+# Activate virtual environment
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
+# Install dependencies (first time only)
 pip install -r requirements.txt
-```
 
-Create `.env` file:
+# Create .env file with your API key
+echo "OPENAI_API_KEY=your_api_key_here" > .env
+# Or edit .env manually and add: OPENAI_API_KEY=sk-...
 
-```bash
-nano .env
-```
-
-Add your OpenAI API key:
-```
-OPENAI_API_KEY=your_actual_api_key_here
-```
-
-Press `Ctrl+X`, then `Y`, then `Enter` to save.
-
-Start the backend server:
-
-```bash
+# Start the backend server
 uvicorn app.main:app --reload
 ```
 
-You should see: `Uvicorn running on http://127.0.0.1:8000`
+**Backend will run on:** http://localhost:8000
 
-**Keep this terminal window open!**
+### Step 2: Frontend Setup (New Terminal)
 
----
-
-## Step 2: Set Up Frontend (New Terminal Window)
-
-Open a **NEW** Terminal window (keep the backend running).
-
-Navigate to frontend:
+Open a **new terminal window** and run:
 
 ```bash
-cd ~/Downloads/Projects/StudyAssistant/frontend
-```
+# Navigate to frontend
+cd frontend
 
-Install dependencies:
-
-```bash
+# Install dependencies (first time only)
 npm install
-```
 
-Start the frontend:
-
-```bash
+# Start the frontend server
 npm run dev
 ```
 
-You should see: `Local: http://localhost:5173/`
+**Frontend will run on:** http://localhost:5173
 
 ---
 
-## Step 3: Open in Browser
+## 🎯 Quick Reference
 
-The frontend will automatically open, or you can manually go to:
-
-**http://localhost:5173**
-
----
-
-## Troubleshooting
-
-### If Python 3 is not found:
-```bash
-brew install python3
-```
-
-### If npm is not found:
-```bash
-brew install node
-```
-
-### If port 8000 is already in use:
-Change the port in the uvicorn command:
-```bash
-uvicorn app.main:app --reload --port 8001
-```
-
-### If port 5173 is already in use:
-Vite will automatically use the next available port.
+| What | URL |
+|------|-----|
+| **Frontend App** | http://localhost:5173 |
+| **Backend API** | http://localhost:8000 |
+| **API Docs** | http://localhost:8000/docs |
 
 ---
 
-## Stopping the Servers
+## 🔧 Troubleshooting
 
-- Backend: Press `Ctrl+C` in the backend terminal
-- Frontend: Press `Ctrl+C` in the frontend terminal
+### Backend won't start?
 
+1. **Check if port 8000 is in use:**
+   ```bash
+   lsof -i :8000
+   ```
+   If something is running, stop it or use a different port.
+
+2. **Check your .env file:**
+   ```bash
+   cat backend/.env
+   ```
+   Make sure `OPENAI_API_KEY` is set correctly.
+
+3. **Reinstall dependencies:**
+   ```bash
+   cd backend
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+### Frontend won't start?
+
+1. **Check if Node.js is installed:**
+   ```bash
+   node --version
+   ```
+   If not, install it: `brew install node` (Mac) or download from nodejs.org
+
+2. **Reinstall dependencies:**
+   ```bash
+   cd frontend
+   rm -rf node_modules
+   npm install
+   ```
+
+### Can't upload files or ask questions?
+
+- **Check connection status** - Look for the indicator in the top-right corner of the app
+- **Red indicator** = Backend is offline. Make sure the backend server is running.
+- **Green indicator** = Backend is connected and ready.
+
+### "Cannot connect to server" error?
+
+1. Make sure the backend is running (check Terminal 1)
+2. Verify backend is on http://localhost:8000
+3. Check the connection status indicator in the app
+
+---
+
+## 📝 First Time Setup Checklist
+
+- [ ] Python 3.8+ installed
+- [ ] Node.js 16+ installed
+- [ ] OpenAI API key obtained
+- [ ] Backend dependencies installed (`pip install -r requirements.txt`)
+- [ ] Frontend dependencies installed (`npm install`)
+- [ ] `.env` file created with `OPENAI_API_KEY`
+- [ ] Backend server running
+- [ ] Frontend server running
+- [ ] Browser opened to http://localhost:5173
+
+---
+
+## 🎓 Using the App
+
+1. **Upload Documents** - Go to "Upload Documents" tab and upload PDFs, Word docs, or text files
+2. **Ask Questions** - Switch to "Ask Questions" and ask anything about your documents
+3. **Generate Quiz** - Create practice quizzes from your study materials
+4. **Create Flashcards** - Automatically generate flashcards from your documents
+
+---
+
+## 💡 Tips
+
+- **Keep both terminals open** - Backend and frontend need to run simultaneously
+- **Check the connection indicator** - Green = good, Red = backend offline
+- **Use the startup script** - `./start.sh` is the easiest way to start everything
+- **API Documentation** - Visit http://localhost:8000/docs to see all available endpoints
+
+---
+
+## 🆘 Still Having Issues?
+
+1. Check that both servers are running
+2. Verify your OpenAI API key is correct
+3. Make sure ports 8000 and 5173 aren't blocked
+4. Check the browser console (F12) for errors
+5. Review the terminal output for error messages
+
+---
+
+**Need more help?** Check the main [README.md](README.md) for detailed information.

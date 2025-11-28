@@ -51,7 +51,18 @@ async def upload_document(file: UploadFile = File(...)):
             status="processed"
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        error_msg = str(e)
+        print(f"Error in upload_document: {error_msg}")
+        print(traceback.format_exc())
+        
+        # Provide more helpful error messages
+        if "Unsupported file type" in error_msg:
+            error_msg = f"Unsupported file type. Please upload PDF, DOCX, or TXT files only."
+        elif "No such file" in error_msg or "Permission denied" in error_msg:
+            error_msg = "File upload failed. Please check file permissions."
+        
+        raise HTTPException(status_code=500, detail=error_msg)
 
 @router.get("/list")
 async def list_documents():

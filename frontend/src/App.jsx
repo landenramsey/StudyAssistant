@@ -1,16 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DocumentUpload from './components/DocumentUpload';
 import ChatInterface from './components/ChatInterface';
 import QuizGenerator from './components/QuizGenerator';
 import FlashcardGenerator from './components/FlashcardGenerator';
+import { checkHealth } from './services/api';
 import './App.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('chat');
   const [documents, setDocuments] = useState([]);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      const result = await checkHealth();
+      setIsConnected(result.status === 'ok');
+    };
+
+    checkConnection();
+    const interval = setInterval(checkConnection, 5000); // Check every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="app">
+      <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+        {isConnected ? '🟢 Connected' : '🔴 Backend Offline'}
+      </div>
       <header className="app-header">
         <h1>🧠 AI Study Assistant</h1>
         <p>Your personalized learning companion</p>
