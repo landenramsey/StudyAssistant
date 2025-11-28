@@ -147,6 +147,34 @@ function SignIn({ onSignIn }) {
             {errors.username && <span className="error-message">{errors.username}</span>}
           </div>
 
+          {!isSignUp && (
+            <div className="form-group">
+              <label>
+                <FiLock className="label-icon" />
+                Password
+              </label>
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  className={errors.password ? 'error' : ''}
+                  disabled={loading}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
+              </div>
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
+          )}
 
           {isSignUp && (
             <>
