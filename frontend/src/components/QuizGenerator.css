@@ -13,12 +13,12 @@
 
 .section-icon {
   font-size: 2.5rem;
-  color: #6366f1;
+  color: #00A9B7;
 }
 
 .quiz-generator h2 {
   font-family: 'Space Grotesk', sans-serif;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -41,9 +41,9 @@
   gap: 22px;
   margin-bottom: 40px;
   padding: 35px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(0, 169, 183, 0.05) 0%, rgba(255, 209, 0, 0.05) 100%);
   border-radius: 20px;
-  border: 2px solid rgba(99, 102, 241, 0.15);
+  border: 2px solid rgba(0, 169, 183, 0.15);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -65,13 +65,13 @@
 
 .label-icon {
   font-size: 16px;
-  color: #6366f1;
+  color: #00A9B7;
 }
 
 .control-group input,
 .control-group select {
   padding: 14px 20px;
-  border: 2px solid rgba(99, 102, 241, 0.25);
+  border: 2px solid rgba(0, 169, 183, 0.25);
   border-radius: 12px;
   font-size: 16px;
   background: white;
@@ -82,14 +82,14 @@
 .control-group input:focus,
 .control-group select:focus {
   outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  border-color: #00A9B7;
+  box-shadow: 0 0 0 4px rgba(0, 169, 183, 0.1);
   transform: translateY(-2px);
 }
 
 .generate-button {
   padding: 16px 40px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   color: white;
   border: none;
   border-radius: 14px;
@@ -99,7 +99,7 @@
   font-family: 'Inter', sans-serif;
   margin-top: 10px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 6px 25px rgba(0, 169, 183, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: flex;
@@ -123,7 +123,7 @@
 
 .generate-button:hover:not(:disabled) {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 10px 35px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 10px 35px rgba(0, 169, 183, 0.5);
 }
 
 .generate-button:disabled {
@@ -139,7 +139,7 @@
 
 .quiz-content h3 {
   font-family: 'Space Grotesk', sans-serif;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -154,7 +154,7 @@
 
 .quiz-icon {
   font-size: 2rem;
-  color: #6366f1;
+  color: #00A9B7;
 }
 
 .question-card {
@@ -163,20 +163,20 @@
   border-radius: 20px;
   margin-bottom: 28px;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-  border: 2px solid rgba(99, 102, 241, 0.15);
+  border: 2px solid rgba(0, 169, 183, 0.15);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   animation: slideIn 0.5s ease-out;
 }
 
 .question-card:hover {
-  box-shadow: 0 10px 35px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 10px 35px rgba(0, 169, 183, 0.2);
   transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(0, 169, 183, 0.3);
 }
 
 .question-number {
   font-weight: 800;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -202,8 +202,8 @@
 
 .option {
   padding: 16px 22px;
-  background: rgba(99, 102, 241, 0.06);
-  border: 2px solid rgba(99, 102, 241, 0.25);
+  background: rgba(0, 169, 183, 0.06);
+  border: 2px solid rgba(0, 169, 183, 0.25);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -214,10 +214,10 @@
 }
 
 .option:hover:not(:has(input:disabled)) {
-  border-color: #6366f1;
-  background: rgba(99, 102, 241, 0.12);
+  border-color: #00A9B7;
+  background: rgba(0, 169, 183, 0.12);
   transform: translateX(8px);
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 169, 183, 0.2);
 }
 
 .option.correct {
@@ -242,7 +242,7 @@
 
 .option-label {
   font-weight: 700;
-  color: #6366f1;
+  color: #00A9B7;
   min-width: 25px;
 }
 
@@ -266,10 +266,10 @@
 .explanation {
   margin-top: 20px;
   padding: 18px 22px;
-  background: rgba(99, 102, 241, 0.06);
+  background: rgba(0, 169, 183, 0.06);
   border-radius: 12px;
   color: #475569;
-  border-left: 4px solid #6366f1;
+  border-left: 4px solid #00A9B7;
   line-height: 1.7;
   font-family: 'Inter', sans-serif;
   display: flex;
@@ -279,13 +279,13 @@
 
 .explanation-icon {
   font-size: 20px;
-  color: #6366f1;
+  color: #00A9B7;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .explanation strong {
-  color: #6366f1;
+  color: #00A9B7;
   display: block;
   margin-bottom: 10px;
   font-weight: 700;

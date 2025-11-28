@@ -60,33 +60,44 @@ class RAGService:
         if document_ids:
             results = [r for r in results if r['document_id'] in document_ids]
         
-        # Check if vector store has any data
-        if self.vector_store.index is None or self.vector_store.index.ntotal == 0:
-            return {
-                "answer": "No documents have been uploaded yet. Please upload documents first before asking questions.",
-                "sources": [],
-                "confidence": 0.0
-            }
+        # Check if vector store has any data or if we have results
+        has_documents = self.vector_store.index is not None and self.vector_store.index.ntotal > 0
+        has_results = len(results) > 0
         
-        if not results:
-            return {
-                "answer": "I couldn't find relevant information in your documents to answer this question. Try uploading more documents or rephrasing your question.",
-                "sources": [],
-                "confidence": 0.0
-            }
+        # Build context from retrieved chunks if available
+        context = ""
+        if has_results:
+            context = "\n\n".join([f"[Source {i+1}]: {r['text']}" for i, r in enumerate(results)])
         
-        # Build context from retrieved chunks
-        context = "\n\n".join([f"[Source {i+1}]: {r['text']}" for i, r in enumerate(results)])
-        
-        # Generate answer using LLM
-        prompt = f"""You are a helpful study assistant. Answer the following question based on the provided context from the user's study materials.
+        # Generate answer using LLM - support both document-based and general questions
+        if has_results:
+            # Document-based answer
+            prompt = f"""You are a helpful study assistant for UNC Wilmington students. Answer the following question based on the provided context from the user's study materials.
 
 Context:
 {context}
 
 Question: {question}
 
-Provide a clear, concise answer. If the context doesn't contain enough information, say so. Cite which sources you used (e.g., "According to Source 1...").
+Provide a clear, concise answer. Cite which sources you used (e.g., "According to Source 1..."). If the context doesn't fully answer the question, you can supplement with your general knowledge.
+
+Answer:"""
+        else:
+            # General question - no documents or no relevant results
+            if has_documents:
+                prompt = f"""You are a helpful study assistant for UNC Wilmington students. The user asked a question, but no relevant information was found in their uploaded documents. Answer the question using your general knowledge.
+
+Question: {question}
+
+Provide a clear, helpful answer. You can mention that this answer is based on general knowledge rather than their uploaded documents.
+
+Answer:"""
+            else:
+                prompt = f"""You are a helpful study assistant for UNC Wilmington students. Answer the following question. The user hasn't uploaded any documents yet, so answer using your general knowledge.
+
+Question: {question}
+
+Provide a clear, helpful answer. You can mention that they can upload documents for more specific answers related to their study materials.
 
 Answer:"""
         

@@ -25,7 +25,7 @@
 
 .session-selector button {
   padding: 12px 24px;
-  border: 2px solid rgba(99, 102, 241, 0.3);
+  border: 2px solid rgba(0, 169, 183, 0.3);
   background: white;
   border-radius: 12px;
   cursor: pointer;
@@ -39,16 +39,16 @@
 }
 
 .session-selector button:hover:not(:disabled) {
-  border-color: #6366f1;
+  border-color: #00A9B7;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 169, 183, 0.2);
 }
 
 .session-selector button.active {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   color: white;
   border-color: transparent;
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 169, 183, 0.4);
 }
 
 .session-selector button:disabled {
@@ -77,15 +77,15 @@
 }
 
 .timer-display.long-break {
-  border-color: rgba(99, 102, 241, 0.3);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border-color: rgba(0, 169, 183, 0.3);
+  background: linear-gradient(135deg, rgba(0, 169, 183, 0.05) 0%, rgba(0, 169, 183, 0.1) 100%);
 }
 
 .timer-time {
   font-size: 5rem;
   font-weight: 800;
   font-family: 'Space Grotesk', sans-serif;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -128,9 +128,9 @@
 }
 
 .timer-button.reset {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 100%);
   color: white;
-  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 6px 25px rgba(0, 169, 183, 0.4);
 }
 
 .timer-button:hover {
@@ -147,9 +147,9 @@
   gap: 20px;
   justify-content: center;
   padding: 20px;
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(0, 169, 183, 0.05);
   border-radius: 16px;
-  border: 2px solid rgba(99, 102, 241, 0.15);
+  border: 2px solid rgba(0, 169, 183, 0.15);
 }
 
 .stat-item {
@@ -164,20 +164,20 @@
 
 .stat-icon {
   font-size: 20px;
-  color: #6366f1;
+  color: #00A9B7;
 }
 
 .goals-section {
   padding: 30px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(0, 169, 183, 0.05) 0%, rgba(255, 209, 0, 0.05) 100%);
   border-radius: 24px;
-  border: 2px solid rgba(99, 102, 241, 0.15);
+  border: 2px solid rgba(0, 169, 183, 0.15);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .goals-section h3 {
   font-family: 'Space Grotesk', sans-serif;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -191,7 +191,7 @@
 
 .section-icon-small {
   font-size: 1.8rem;
-  color: #6366f1;
+  color: #00A9B7;
 }
 
 .goal-input {
@@ -203,7 +203,7 @@
 .goal-input input {
   flex: 1;
   padding: 14px 20px;
-  border: 2px solid rgba(99, 102, 241, 0.25);
+  border: 2px solid rgba(0, 169, 183, 0.25);
   border-radius: 12px;
   font-size: 16px;
   font-family: 'Inter', sans-serif;
@@ -212,13 +212,13 @@
 
 .goal-input input:focus {
   outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  border-color: #00A9B7;
+  box-shadow: 0 0 0 4px rgba(0, 169, 183, 0.1);
 }
 
 .add-goal-button {
   padding: 14px 28px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 50%, #FFD100 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -226,12 +226,12 @@
   font-weight: 700;
   font-family: 'Inter', sans-serif;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 169, 183, 0.3);
 }
 
 .add-goal-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 169, 183, 0.4);
 }
 
 .goals-list {
@@ -243,7 +243,7 @@
 .goal-item {
   padding: 16px 20px;
   background: white;
-  border: 2px solid rgba(99, 102, 241, 0.2);
+  border: 2px solid rgba(0, 169, 183, 0.2);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -254,9 +254,9 @@
 }
 
 .goal-item:hover {
-  border-color: #6366f1;
+  border-color: #00A9B7;
   transform: translateX(8px);
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 169, 183, 0.2);
 }
 
 .goal-item.completed {
@@ -268,7 +268,7 @@
 
 .goal-check {
   font-size: 20px;
-  color: #6366f1;
+  color: #00A9B7;
   flex-shrink: 0;
 }
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import LandingPage from './components/LandingPage';
 import DocumentUpload from './components/DocumentUpload';
 import ChatInterface from './components/ChatInterface';
 import QuizGenerator from './components/QuizGenerator';
@@ -11,6 +12,7 @@ import { HiAcademicCap } from 'react-icons/hi2';
 import './App.css';
 
 function App() {
+  const [showLanding, setShowLanding] = useState(true);
   const [activeTab, setActiveTab] = useState('chat');
   const [documents, setDocuments] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
@@ -26,6 +28,10 @@ function App() {
 
     return () => clearInterval(interval);
   }, []);
+
+  if (showLanding) {
+    return <LandingPage onGetStarted={() => setShowLanding(false)} />;
+  }
 
   return (
     <div className="app">
@@ -44,8 +50,12 @@ function App() {
       </div>
       
       <header className="app-header">
-        <div className="header-icon">
-          <HiAcademicCap />
+        <div className="uncw-logo-header">
+          <HiAcademicCap className="header-logo-icon" />
+          <div className="header-logo-text">
+            <span className="header-uncw">UNCW</span>
+            <span className="header-study">Study Assistant</span>
+          </div>
         </div>
         <h1>Study Assistant</h1>
         <p className="uncw-badge">For UNC Wilmington Students</p>

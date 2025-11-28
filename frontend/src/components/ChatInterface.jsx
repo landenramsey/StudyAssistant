@@ -50,15 +50,15 @@ function ChatInterface({ documents }) {
         <h2>Ask Questions</h2>
       </div>
       <p className="section-description">
-        Ask anything about your uploaded study materials. Get instant answers with source citations.
+        Ask any question - about your uploaded study materials or general topics. Get instant answers with source citations when available.
       </p>
 
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="empty-state">
             <FiMessageCircle className="empty-icon" />
-            <p>Start by asking a question about your study materials!</p>
-            <p className="empty-hint">Try: "Explain photosynthesis" or "What is calculus?"</p>
+            <p>Start by asking any question!</p>
+            <p className="empty-hint">Try: "Explain photosynthesis", "What is calculus?", or "Help me understand quantum physics"</p>
           </div>
         )}
         {messages.map((msg, idx) => (
@@ -104,7 +104,7 @@ function ChatInterface({ documents }) {
           type="text"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Ask a question about your documents..."
+          placeholder="Ask any question - about your documents or general topics..."
           disabled={loading}
         />
         <button type="submit" disabled={loading || !question.trim()}>

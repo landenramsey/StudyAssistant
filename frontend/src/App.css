@@ -61,9 +61,47 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 169, 183, 0.1) 0%, transparent 70%);
   animation: rotate 15s linear infinite;
   pointer-events: none;
+}
+
+.uncw-logo-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.header-logo-icon {
+  font-size: 4rem;
+  color: #FFD100;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+  animation: float 3s ease-in-out infinite;
+}
+
+.header-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header-uncw {
+  font-size: 3rem;
+  font-weight: 900;
+  font-family: 'Space Grotesk', sans-serif;
+  color: white;
+  letter-spacing: 3px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.header-study {
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  color: #FFD100;
+  letter-spacing: 1px;
 }
 
 .header-icon {
@@ -101,7 +139,7 @@
 .uncw-badge {
   display: inline-block;
   padding: 8px 20px;
-  background: rgba(0, 102, 204, 0.9);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 100%);
   color: white;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -109,9 +147,10 @@
   margin-bottom: 15px;
   font-family: 'Inter', sans-serif;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 169, 183, 0.4);
   position: relative;
   z-index: 1;
+  border: 2px solid #FFD100;
 }
 
 .app-header p:not(.uncw-badge) {
@@ -180,20 +219,20 @@
 }
 
 .tabs button.active {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(236, 72, 153, 0.9) 100%);
+  background: linear-gradient(135deg, #00A9B7 0%, #006B7A 100%);
   color: white;
   box-shadow: 
-    0 8px 32px rgba(99, 102, 241, 0.4),
-    0 0 0 4px rgba(99, 102, 241, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
+    0 8px 32px rgba(0, 169, 183, 0.4),
+    0 0 0 4px rgba(255, 209, 0, 0.3);
+  border-color: rgba(255, 209, 0, 0.5);
   transform: translateY(-2px) scale(1.05);
 }
 
 .tabs button.active:hover {
   transform: translateY(-4px) scale(1.07);
   box-shadow: 
-    0 12px 40px rgba(99, 102, 241, 0.5),
-    0 0 0 4px rgba(99, 102, 241, 0.3);
+    0 12px 40px rgba(0, 169, 183, 0.5),
+    0 0 0 4px rgba(255, 209, 0, 0.4);
 }
 
 .main-content {
@@ -217,7 +256,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899, #f59e0b);
+  background: linear-gradient(90deg, #00A9B7, #006B7A, #FFD100, #f59e0b);
   border-radius: 24px 24px 0 0;
   animation: gradientShift 3s ease infinite;
 }

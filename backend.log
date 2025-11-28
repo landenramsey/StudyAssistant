@@ -43,3 +43,23 @@ INFO:     127.0.0.1:51492 - "GET /api/health HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51492 - "GET /api/health HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51492 - "GET /api/health HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51492 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51755 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51762 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51762 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51762 - "OPTIONS /api/questions/ask HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51762 - "POST /api/questions/ask HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51762 - "GET /api/health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/services/rag.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75165]
+INFO:     Started server process [88373]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
