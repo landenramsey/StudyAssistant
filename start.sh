@@ -44,16 +44,29 @@ else
         echo "${YELLOW}⚠️  .env file not found. Please create one with your OPENAI_API_KEY${NC}"
     fi
     
+    # Install/update dependencies if needed
+    echo "${BLUE}📦 Checking dependencies...${NC}"
+    pip install -q -r requirements.txt
+    
     # Start backend in background
+    echo "${BLUE}🚀 Starting backend server...${NC}"
     uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 > ../backend.log 2>&1 &
     BACKEND_PID=$!
-    echo "${GREEN}✅ Backend started (PID: $BACKEND_PID)${NC}"
-    echo "   Backend API: http://localhost:8000"
-    echo "   API Docs: http://localhost:8000/docs"
     cd ..
     
     # Wait a bit for backend to start
-    sleep 2
+    sleep 3
+    
+    # Check if backend actually started
+    if check_port 8000; then
+        echo "${GREEN}✅ Backend started successfully (PID: $BACKEND_PID)${NC}"
+        echo "   Backend API: http://localhost:8000"
+        echo "   API Docs: http://localhost:8000/docs"
+    else
+        echo "${YELLOW}⚠️  Backend may have failed to start. Check backend.log for errors:${NC}"
+        echo "   tail -20 backend.log"
+        echo "${YELLOW}   Common issue: Missing dependencies. Try: cd backend && source venv/bin/activate && pip install -r requirements.txt${NC}"
+    fi
 fi
 
 # Check if frontend port is in use
