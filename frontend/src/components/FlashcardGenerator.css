@@ -1,0 +1,156 @@
+.flashcard-generator {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.flashcard-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.control-group textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.flashcard-viewer {
+  margin-top: 30px;
+}
+
+.flashcard-counter {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.flashcard {
+  width: 100%;
+  height: 400px;
+  perspective: 1000px;
+  margin: 0 auto 30px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background: white;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+  background: #e3f2fd;
+}
+
+.flashcard-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.flashcard-content h3 {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.flashcard-content p {
+  font-size: 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.flashcard-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.difficulty {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.difficulty.easy {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.difficulty.medium {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.difficulty.hard {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.importance {
+  color: #666;
+  font-size: 12px;
+}
+
+.flashcard-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.flashcard-nav button {
+  padding: 12px 24px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.flashcard-nav button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
