@@ -106,17 +106,20 @@ Answer:"""
             # Calculate average confidence from retrieved chunks
             avg_confidence = sum(r['score'] for r in results) / len(results)
             
+            # Always include sources, even if empty
+            sources_list = [
+                {
+                    "text": r['text'][:200] + "..." if len(r['text']) > 200 else r['text'],
+                    "document_id": r['document_id'],
+                    "score": round(r['score'], 3)
+                }
+                for r in results
+            ] if results else []
+            
             return {
                 "answer": answer,
-                "sources": [
-                    {
-                        "text": r['text'][:200] + "...",
-                        "document_id": r['document_id'],
-                        "score": r['score']
-                    }
-                    for r in results
-                ],
-                "confidence": avg_confidence
+                "sources": sources_list,
+                "confidence": round(avg_confidence, 3) if results else 0.0
             }
         except Exception as e:
             import traceback
@@ -156,9 +159,24 @@ Answer:"""
             }
         
         if topic:
-            # Search for relevant chunks about the topic
-            query_embedding = self.embedding_service.embed_text(topic)
-            results = self.vector_store.search(query_embedding, k=top_k)
+            # Search for relevant chunks about the topic - use more specific query
+            topic_query = f"about {topic} concepts definitions examples"
+            query_embedding = self.embedding_service.embed_text(topic_query)
+            results = self.vector_store.search(query_embedding, k=top_k * 2)  # Get more results to filter better
+            
+            # Filter results to only include those with high relevance to the topic
+            # Re-rank by checking if topic keywords appear in the text
+            topic_lower = topic.lower()
+            filtered_results = []
+            for r in results:
+                text_lower = r['text'].lower()
+                # Boost score if topic appears in text
+                if topic_lower in text_lower:
+                    r['score'] = min(1.0, r['score'] * 1.5)
+                filtered_results.append(r)
+            
+            # Sort by score and take top_k
+            results = sorted(filtered_results, key=lambda x: x['score'], reverse=True)[:top_k]
         else:
             # Get random chunks
             results = self.vector_store.search(
@@ -176,9 +194,10 @@ Answer:"""
                 "error": "No relevant content found. Try uploading more documents or using a different topic."
             }
         
-        context = "\n\n".join([r['text'] for r in results[:5]])
+        context = "\n\n".join([r['text'] for r in results[:10]])  # Use more context
         
-        prompt = f"""Generate {num_questions} {question_type} questions based on the following study material.
+        topic_specific = f" focused specifically on {topic}" if topic else ""
+        prompt = f"""Generate {num_questions} {question_type} questions{topic_specific} based EXCLUSIVELY on the following study material.
 
 Study Material:
 {context}

@@ -4,6 +4,8 @@ import ChatInterface from './components/ChatInterface';
 import QuizGenerator from './components/QuizGenerator';
 import FlashcardGenerator from './components/FlashcardGenerator';
 import { checkHealth } from './services/api';
+import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiWifi, FiWifiOff } from 'react-icons/fi';
+import { HiAcademicCap } from 'react-icons/hi2';
 import './App.css';
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
     };
 
     checkConnection();
-    const interval = setInterval(checkConnection, 5000); // Check every 5 seconds
+    const interval = setInterval(checkConnection, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -26,11 +28,25 @@ function App() {
   return (
     <div className="app">
       <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
-        {isConnected ? '🟢 Connected' : '🔴 Backend Offline'}
+        {isConnected ? (
+          <>
+            <FiWifi className="status-icon" />
+            <span>Connected</span>
+          </>
+        ) : (
+          <>
+            <FiWifiOff className="status-icon" />
+            <span>Backend Offline</span>
+          </>
+        )}
       </div>
+      
       <header className="app-header">
-        <h1>🧠 AI Study Assistant</h1>
-        <p>Your personalized learning companion</p>
+        <div className="header-icon">
+          <HiAcademicCap />
+        </div>
+        <h1>Study Assistant</h1>
+        <p>Transform your study materials into interactive learning tools</p>
       </header>
 
       <nav className="tabs">
@@ -38,25 +54,29 @@ function App() {
           className={activeTab === 'upload' ? 'active' : ''}
           onClick={() => setActiveTab('upload')}
         >
-          📄 Upload Documents
+          <FiUpload className="tab-icon" />
+          <span>Upload</span>
         </button>
         <button
           className={activeTab === 'chat' ? 'active' : ''}
           onClick={() => setActiveTab('chat')}
         >
-          💬 Ask Questions
+          <FiMessageCircle className="tab-icon" />
+          <span>Ask Questions</span>
         </button>
         <button
           className={activeTab === 'quiz' ? 'active' : ''}
           onClick={() => setActiveTab('quiz')}
         >
-          📝 Generate Quiz
+          <FiFileText className="tab-icon" />
+          <span>Quiz</span>
         </button>
         <button
           className={activeTab === 'flashcards' ? 'active' : ''}
           onClick={() => setActiveTab('flashcards')}
         >
-          🎴 Flashcards
+          <FiLayers className="tab-icon" />
+          <span>Flashcards</span>
         </button>
       </nav>
 
@@ -71,4 +91,3 @@ function App() {
 }
 
 export default App;
-

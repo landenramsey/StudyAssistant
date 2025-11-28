@@ -9,3 +9,5 @@
   ➜  Network: use --host to expose
 3:00:01 PM [vite] hmr update /src/components/QuizGenerator.jsx
 3:00:02 PM [vite] hmr update /src/components/FlashcardGenerator.jsx
+3:00:39 PM [vite] hmr update /src/components/QuizGenerator.jsx
+3:00:39 PM [vite] hmr update /src/components/FlashcardGenerator.jsx

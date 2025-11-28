@@ -4,6 +4,18 @@
   animation: fadeIn 0.6s ease-out;
 }
 
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.section-icon {
+  font-size: 2.5rem;
+  color: #6366f1;
+}
+
 .flashcard-generator h2 {
   font-family: 'Space Grotesk', sans-serif;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
@@ -12,11 +24,11 @@
   background-clip: text;
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin: 0;
   letter-spacing: -1px;
 }
 
-.flashcard-generator > p {
+.section-description {
   color: #64748b;
   margin-bottom: 30px;
   font-size: 1.1rem;
@@ -46,6 +58,14 @@
   color: #475569;
   font-size: 15px;
   font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-icon {
+  font-size: 16px;
+  color: #6366f1;
 }
 
 .control-group textarea {
@@ -83,7 +103,7 @@
   transform: translateY(-2px);
 }
 
-.flashcard-controls button {
+.generate-button {
   padding: 16px 40px;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
   color: white;
@@ -97,14 +117,31 @@
   box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.flashcard-controls button:hover:not(:disabled) {
+.button-icon {
+  font-size: 20px;
+}
+
+.button-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.generate-button:hover:not(:disabled) {
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 10px 35px rgba(99, 102, 241, 0.5);
 }
 
-.flashcard-controls button:disabled {
+.generate-button:disabled {
   background: #cbd5e1;
   cursor: not-allowed;
   box-shadow: none;
@@ -126,6 +163,15 @@
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
   border: 2px solid rgba(99, 102, 241, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.counter-icon {
+  font-size: 20px;
+  color: #6366f1;
 }
 
 .flashcard {
@@ -176,7 +222,11 @@
   text-align: center;
 }
 
-.flashcard-content h3 {
+.flashcard-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   color: #6366f1;
   margin-bottom: 28px;
   font-size: 14px;
@@ -184,6 +234,10 @@
   font-weight: 800;
   letter-spacing: 3px;
   font-family: 'Space Grotesk', sans-serif;
+}
+
+.label-icon-small {
+  font-size: 16px;
 }
 
 .flashcard-content p {
@@ -200,6 +254,32 @@
   margin-top: 28px;
   padding-top: 28px;
   border-top: 2px solid rgba(99, 102, 241, 0.15);
+}
+
+.flip-hint {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 12px;
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.hint-icon {
+  font-size: 14px;
+  animation: rotateHint 2s ease-in-out infinite;
+}
+
+@keyframes rotateHint {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
 }
 
 .difficulty {
@@ -248,7 +328,7 @@
   flex-wrap: wrap;
 }
 
-.flashcard-nav button {
+.nav-button {
   padding: 14px 32px;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
   color: white;
@@ -262,14 +342,25 @@
   box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.flashcard-nav button:hover:not(:disabled) {
+.nav-icon {
+  font-size: 18px;
+}
+
+.flip-button {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+.nav-button:hover:not(:disabled) {
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 10px 35px rgba(99, 102, 241, 0.5);
 }
 
-.flashcard-nav button:disabled {
+.nav-button:disabled {
   background: #cbd5e1;
   cursor: not-allowed;
   box-shadow: none;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { askQuestion } from '../services/api';
+import { FiMessageCircle, FiSend, FiLoader, FiFileText, FiTrendingUp } from 'react-icons/fi';
 import './ChatInterface.css';
 
 function ChatInterface({ documents }) {
@@ -21,7 +22,7 @@ function ChatInterface({ documents }) {
       const assistantMessage = {
         role: 'assistant',
         content: response.answer,
-        sources: response.sources,
+        sources: response.sources || [],
         confidence: response.confidence,
       };
       setMessages([...messages, userMessage, assistantMessage]);
@@ -35,7 +36,7 @@ function ChatInterface({ documents }) {
       setMessages([
         ...messages,
         userMessage,
-        { role: 'assistant', content: errorMessage },
+        { role: 'assistant', content: errorMessage, sources: [], confidence: 0 },
       ]);
     } finally {
       setLoading(false);
@@ -44,13 +45,20 @@ function ChatInterface({ documents }) {
 
   return (
     <div className="chat-interface">
-      <h2>Ask Questions About Your Notes</h2>
-      <p>Ask anything about your uploaded study materials!</p>
+      <div className="section-header">
+        <FiMessageCircle className="section-icon" />
+        <h2>Ask Questions</h2>
+      </div>
+      <p className="section-description">
+        Ask anything about your uploaded study materials. Get instant answers with source citations.
+      </p>
 
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="empty-state">
-            <p>👋 Start by asking a question about your study materials!</p>
+            <FiMessageCircle className="empty-icon" />
+            <p>Start by asking a question about your study materials!</p>
+            <p className="empty-hint">Try: "Explain photosynthesis" or "What is calculus?"</p>
           </div>
         )}
         {messages.map((msg, idx) => (
@@ -58,24 +66,34 @@ function ChatInterface({ documents }) {
             <div className="message-content">{msg.content}</div>
             {msg.sources && msg.sources.length > 0 && (
               <div className="sources">
-                <strong>Sources:</strong>
+                <div className="sources-header">
+                  <FiFileText className="sources-icon" />
+                  <strong>Sources ({msg.sources.length})</strong>
+                </div>
                 {msg.sources.map((source, i) => (
                   <div key={i} className="source">
                     <span className="source-text">{source.text}</span>
-                    <span className="source-score">Score: {source.score.toFixed(2)}</span>
+                    <div className="source-meta">
+                      <span className="source-score">
+                        <FiTrendingUp className="score-icon" />
+                        {source.score.toFixed(2)}
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
             )}
-            {msg.confidence && (
+            {msg.confidence !== undefined && msg.confidence > 0 && (
               <div className="confidence">
-                Confidence: {(msg.confidence * 100).toFixed(1)}%
+                <FiTrendingUp className="confidence-icon" />
+                <span>Confidence: {(msg.confidence * 100).toFixed(1)}%</span>
               </div>
             )}
           </div>
         ))}
         {loading && (
-          <div className="message assistant">
+          <div className="message assistant loading">
+            <FiLoader className="loading-icon spinning" />
             <div className="message-content">Thinking...</div>
           </div>
         )}
@@ -86,11 +104,16 @@ function ChatInterface({ documents }) {
           type="text"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Ask a question..."
+          placeholder="Ask a question about your documents..."
           disabled={loading}
         />
         <button type="submit" disabled={loading || !question.trim()}>
-          Send
+          {loading ? (
+            <FiLoader className="button-icon spinning" />
+          ) : (
+            <FiSend className="button-icon" />
+          )}
+          <span>Send</span>
         </button>
       </form>
     </div>
@@ -98,4 +121,3 @@ function ChatInterface({ documents }) {
 }
 
 export default ChatInterface;
-

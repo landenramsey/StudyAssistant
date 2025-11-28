@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { generateFlashcards } from '../services/api';
+import { FiLayers, FiPlay, FiChevronLeft, FiChevronRight, FiRotateCw, FiLoader, FiInfo } from 'react-icons/fi';
 import './FlashcardGenerator.css';
 
 function FlashcardGenerator({ documents }) {
@@ -51,12 +52,20 @@ function FlashcardGenerator({ documents }) {
 
   return (
     <div className="flashcard-generator">
-      <h2>Generate Flashcards</h2>
-      <p>Create flashcards from your study materials or custom text</p>
+      <div className="section-header">
+        <FiLayers className="section-icon" />
+        <h2>Flashcards</h2>
+      </div>
+      <p className="section-description">
+        Create interactive flashcards from your study materials or custom text. Click to flip!
+      </p>
 
       <div className="flashcard-controls">
         <div className="control-group">
-          <label>Custom Text (optional, leave empty to use documents):</label>
+          <label>
+            <FiInfo className="label-icon" />
+            Custom Text (optional - leave empty to use uploaded documents)
+          </label>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -66,7 +75,10 @@ function FlashcardGenerator({ documents }) {
         </div>
 
         <div className="control-group">
-          <label>Number of Cards:</label>
+          <label>
+            <FiInfo className="label-icon" />
+            Number of Cards
+          </label>
           <input
             type="number"
             value={numCards}
@@ -76,15 +88,26 @@ function FlashcardGenerator({ documents }) {
           />
         </div>
 
-        <button onClick={handleGenerate} disabled={loading}>
-          {loading ? 'Generating...' : 'Generate Flashcards'}
+        <button onClick={handleGenerate} disabled={loading} className="generate-button">
+          {loading ? (
+            <>
+              <FiLoader className="button-icon spinning" />
+              <span>Generating...</span>
+            </>
+          ) : (
+            <>
+              <FiPlay className="button-icon" />
+              <span>Generate Flashcards</span>
+            </>
+          )}
         </button>
       </div>
 
       {cards.length > 0 && (
         <div className="flashcard-viewer">
           <div className="flashcard-counter">
-            Card {currentIndex + 1} of {cards.length}
+            <FiLayers className="counter-icon" />
+            <span>Card {currentIndex + 1} of {cards.length}</span>
           </div>
 
           <div
@@ -94,7 +117,10 @@ function FlashcardGenerator({ documents }) {
             <div className="flashcard-inner">
               <div className="flashcard-front">
                 <div className="flashcard-content">
-                  <h3>Question</h3>
+                  <div className="flashcard-label">
+                    <FiInfo className="label-icon-small" />
+                    Question
+                  </div>
                   <p>{cards[currentIndex].front}</p>
                 </div>
                 <div className="flashcard-meta">
@@ -105,10 +131,17 @@ function FlashcardGenerator({ documents }) {
                     Importance: {(cards[currentIndex].importance * 100).toFixed(0)}%
                   </span>
                 </div>
+                <div className="flip-hint">
+                  <FiRotateCw className="hint-icon" />
+                  Click to flip
+                </div>
               </div>
               <div className="flashcard-back">
                 <div className="flashcard-content">
-                  <h3>Answer</h3>
+                  <div className="flashcard-label">
+                    <FiInfo className="label-icon-small" />
+                    Answer
+                  </div>
                   <p>{cards[currentIndex].back}</p>
                 </div>
               </div>
@@ -116,14 +149,17 @@ function FlashcardGenerator({ documents }) {
           </div>
 
           <div className="flashcard-nav">
-            <button onClick={prevCard} disabled={currentIndex === 0}>
-              ← Previous
+            <button onClick={prevCard} disabled={currentIndex === 0} className="nav-button">
+              <FiChevronLeft className="nav-icon" />
+              <span>Previous</span>
             </button>
-            <button onClick={() => setFlipped(!flipped)}>
-              {flipped ? 'Show Question' : 'Show Answer'}
+            <button onClick={() => setFlipped(!flipped)} className="nav-button flip-button">
+              <FiRotateCw className="nav-icon" />
+              <span>{flipped ? 'Show Question' : 'Show Answer'}</span>
             </button>
-            <button onClick={nextCard} disabled={currentIndex === cards.length - 1}>
-              Next →
+            <button onClick={nextCard} disabled={currentIndex === cards.length - 1} className="nav-button">
+              <span>Next</span>
+              <FiChevronRight className="nav-icon" />
             </button>
           </div>
         </div>
@@ -133,4 +169,3 @@ function FlashcardGenerator({ documents }) {
 }
 
 export default FlashcardGenerator;
-
