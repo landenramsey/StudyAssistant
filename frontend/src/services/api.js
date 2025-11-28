@@ -64,6 +64,30 @@ export const generateFlashcards = async (text, numCards, documentIds = null) => 
   return response.data;
 };
 
+// Authentication functions
+export const signUp = async (username, password, year, major) => {
+  const response = await api.post('/api/auth/signup', {
+    username,
+    password,
+    year,
+    major,
+  });
+  return response.data;
+};
+
+export const signIn = async (username, password) => {
+  const response = await api.post('/api/auth/signin', {
+    username,
+    password,
+  });
+  return response.data;
+};
+
+export const getUser = async (username) => {
+  const response = await api.get(`/api/auth/user/${username}`);
+  return response.data;
+};
+
 // Health check function
 export const checkHealth = async () => {
   try {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiClock, FiMapPin, FiArrowRight, FiBookOpen, FiInfo, FiAward, FiUsers, FiCalendar } from 'react-icons/fi';
+import { FiUpload, FiMessageCircle, FiFileText, FiLayers, FiClock, FiMapPin, FiArrowRight, FiBookOpen, FiInfo, FiAward, FiUsers, FiCalendar, FiLogOut, FiMap, FiGlobe, FiTarget } from 'react-icons/fi';
 import { HiAcademicCap } from 'react-icons/hi2';
 import './LandingPage.css';
 
-function LandingPage({ onGetStarted }) {
+function LandingPage({ onGetStarted, onLogout, user }) {
   const [activeTab, setActiveTab] = useState('features');
 
   const features = [
@@ -54,25 +54,49 @@ function LandingPage({ onGetStarted }) {
     {
       icon: <FiUsers />,
       title: 'Student Body',
-      content: 'Over 17,000 students enrolled across undergraduate and graduate programs.'
+      content: 'Over 17,000 students enrolled across undergraduate and graduate programs, with a diverse and inclusive community.'
     },
     {
       icon: <FiAward />,
       title: 'Recognition',
-      content: 'Ranked among the top public universities in the South by U.S. News & World Report.'
+      content: 'Ranked among the top public universities in the South by U.S. News & World Report. Recognized for excellence in teaching and research.'
     },
     {
       icon: <HiAcademicCap />,
       title: 'Academics',
-      content: 'Offers more than 90 undergraduate degree programs and 30+ graduate programs.'
+      content: 'Offers more than 90 undergraduate degree programs and 30+ graduate programs across six colleges.'
+    },
+    {
+      icon: <FiMap />,
+      title: 'Location',
+      content: 'Beautiful 661-acre campus located in Wilmington, North Carolina, just minutes from the Atlantic Ocean and Wrightsville Beach.'
+    },
+    {
+      icon: <FiGlobe />,
+      title: 'Research',
+      content: 'Designated as a research university with strong programs in marine science, business, education, and health sciences.'
+    },
+    {
+      icon: <FiTarget />,
+      title: 'Mission',
+      content: 'Dedicated to learning through teaching, scholarship, and service. Committed to student success and community engagement.'
     }
   ];
 
   return (
     <div className="landing-page">
+      {user && (
+        <div className="landing-user-bar">
+          <span>Welcome back, {user.username}!</span>
+          <button onClick={onLogout} className="logout-button-landing">
+            <FiLogOut className="logout-icon" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      )}
+      
       <div className="landing-header">
         <div className="uncw-logo">
-          <div className="seahawk-logo-large">🦅</div>
           <HiAcademicCap className="logo-icon" />
           <div className="logo-text">
             <span className="logo-uncw">UNCW</span>
@@ -168,6 +192,17 @@ function LandingPage({ onGetStarted }) {
                 Known for its beautiful coastal campus and strong academic programs, UNCW provides students with exceptional 
                 educational opportunities in a vibrant learning environment.
               </p>
+              <p>
+                UNCW is part of the prestigious University of North Carolina system and is recognized for its commitment to 
+                excellence in teaching, research, and service. The university offers a comprehensive range of programs through 
+                its six colleges: College of Arts and Sciences, Cameron School of Business, Watson College of Education, 
+                College of Health and Human Services, College of Science and Engineering, and the Graduate School.
+              </p>
+              <p>
+                The campus features state-of-the-art facilities including the Randall Library, STEM Lab, and numerous research 
+                centers. UNCW is particularly known for its programs in marine science, business, education, and health sciences, 
+                with many programs ranked among the best in the nation.
+              </p>
             </div>
             <div className="uncw-facts-grid">
               {uncwFacts.map((fact, index) => (
@@ -196,10 +231,26 @@ function LandingPage({ onGetStarted }) {
                   </div>
                 </div>
                 <div className="timeline-item">
+                  <div className="timeline-year">1980s-90s</div>
+                  <div className="timeline-content">
+                    <h4>Rapid Growth</h4>
+                    <p>Expanded academic programs and facilities, establishing itself as a comprehensive university.</p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-year">2000s</div>
+                  <div className="timeline-content">
+                    <h4>Research University</h4>
+                    <p>Achieved Carnegie classification as a research university, emphasizing both teaching and research excellence.</p>
+                  </div>
+                </div>
+                <div className="timeline-item">
                   <div className="timeline-year">Today</div>
                   <div className="timeline-content">
                     <h4>Leading University</h4>
-                    <p>A comprehensive university offering diverse programs and research opportunities.</p>
+                    <p>A comprehensive research university with over 17,000 students, recognized nationally for academic excellence, 
+                    innovative programs, and commitment to student success. Home to nationally ranked programs in marine science, 
+                    business, and education.</p>
                   </div>
                 </div>
               </div>

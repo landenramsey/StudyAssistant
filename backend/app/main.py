@@ -4,7 +4,7 @@ load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import documents, questions, quizzes, flashcards
+from app.routers import documents, questions, quizzes, flashcards, auth
 
 app = FastAPI(
     title="AI Study Assistant API",
@@ -22,6 +22,7 @@ app.add_middleware(
 )
 
 # Include routers
+app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(documents.router, prefix="/api/documents", tags=["documents"])
 app.include_router(questions.router, prefix="/api/questions", tags=["questions"])
 app.include_router(quizzes.router, prefix="/api/quizzes", tags=["quizzes"])

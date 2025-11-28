@@ -1,6 +1,6 @@
 .landing-page {
   min-height: 100vh;
-  padding: 40px 20px 60px;
+  padding: 80px 20px 60px;
   background: linear-gradient(135deg, #00A9B7 0%, #006B7A 100%);
   color: white;
   display: flex;
@@ -25,10 +25,51 @@
   flex-wrap: wrap;
 }
 
-.seahawk-logo-large {
-  font-size: 5rem;
-  filter: drop-shadow(0 4px 15px rgba(255, 209, 0, 0.5));
-  animation: float 3s ease-in-out infinite;
+.landing-user-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 12px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.landing-user-bar span {
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.logout-button-landing {
+  padding: 8px 20px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-button-landing:hover {
+  background: rgba(239, 68, 68, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.logout-icon {
+  font-size: 16px;
 }
 
 @keyframes float {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { askQuestion } from '../services/api';
-import { FiMessageCircle, FiSend, FiLoader, FiFileText, FiTrendingUp } from 'react-icons/fi';
+import { FiMessageCircle, FiSend, FiLoader } from 'react-icons/fi';
 import './ChatInterface.css';
 
 function ChatInterface({ documents, user }) {
@@ -27,8 +27,6 @@ function ChatInterface({ documents, user }) {
       const assistantMessage = {
         role: 'assistant',
         content: response.answer,
-        sources: response.sources || [],
-        confidence: response.confidence,
       };
       setMessages([...messages, userMessage, assistantMessage]);
     } catch (error) {
@@ -41,7 +39,7 @@ function ChatInterface({ documents, user }) {
       setMessages([
         ...messages,
         userMessage,
-        { role: 'assistant', content: errorMessage, sources: [], confidence: 0 },
+        { role: 'assistant', content: errorMessage },
       ]);
     } finally {
       setLoading(false);
@@ -69,46 +67,6 @@ function ChatInterface({ documents, user }) {
         {messages.map((msg, idx) => (
           <div key={idx} className={`message ${msg.role}`}>
             <div className="message-content">{msg.content}</div>
-            {msg.sources && Array.isArray(msg.sources) && msg.sources.length > 0 && (
-              <div className="sources">
-                <div className="sources-header">
-                  <FiFileText className="sources-icon" />
-                  <strong>Sources ({msg.sources.length})</strong>
-                </div>
-                {msg.sources.map((source, i) => (
-                  <div key={i} className="source">
-                    <span className="source-text">{source.text || (typeof source === 'string' ? source : 'Source text unavailable')}</span>
-                    <div className="source-meta">
-                      {source.relevance && (
-                        <span className={`source-relevance ${source.relevance.toLowerCase()}`}>
-                          {source.relevance} Relevance
-                        </span>
-                      )}
-                      {source.score !== undefined && (
-                        <span className="source-score">
-                          <FiTrendingUp className="score-icon" />
-                          Score: {typeof source.score === 'number' ? source.score.toFixed(3) : source.score}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            {msg.confidence !== undefined && (
-              <div className="confidence">
-                <FiTrendingUp className="confidence-icon" />
-                <div>
-                  <span>Confidence: {(msg.confidence * 100).toFixed(1)}%</span>
-                  <div className="confidence-bar">
-                    <div 
-                      className="confidence-fill" 
-                      style={{ width: `${msg.confidence * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         ))}
         {loading && (

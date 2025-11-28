@@ -24,9 +24,15 @@ function App() {
     // Check if user is already signed in
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
-      setShowSignIn(false);
-      setShowLanding(false);
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+        setShowSignIn(false);
+        setShowLanding(false);
+      } catch (e) {
+        // Invalid data, clear it
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
@@ -64,7 +70,7 @@ function App() {
   }
 
   if (showLanding) {
-    return <LandingPage onGetStarted={() => setShowLanding(false)} />;
+    return <LandingPage onGetStarted={() => setShowLanding(false)} onLogout={handleLogout} user={user} />;
   }
 
   return (
@@ -96,7 +102,6 @@ function App() {
       
       <header className="app-header">
         <div className="uncw-logo-header">
-          <div className="seahawk-logo">🦅</div>
           <HiAcademicCap className="header-logo-icon" />
           <div className="header-logo-text">
             <span className="header-uncw">UNCW</span>

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { FiUser, FiLock, FiCalendar, FiBook, FiArrowRight, FiLogIn } from 'react-icons/fi';
 import { HiAcademicCap } from 'react-icons/hi2';
+import { signUp, signIn } from '../services/api';
 import './SignIn.css';
 
 function SignIn({ onSignIn }) {
+  const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -37,22 +39,49 @@ function SignIn({ onSignIn }) {
     if (!formData.password) {
       newErrors.password = 'Password is required';
     }
-    if (!formData.year) {
-      newErrors.year = 'Please select your year';
-    }
-    if (!formData.major) {
-      newErrors.major = 'Please select your major';
+    if (isSignUp) {
+      if (!formData.year) {
+        newErrors.year = 'Please select your year';
+      }
+      if (!formData.major) {
+        newErrors.major = 'Please select your major';
+      }
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+
+    try {
+      let userData;
+      if (isSignUp) {
+        // Sign up new user
+        userData = await signUp(
+          formData.username,
+          formData.password,
+          formData.year,
+          formData.major
+        );
+      } else {
+        // Sign in existing user
+        userData = await signIn(formData.username, formData.password);
+      }
+      
       // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(formData));
-      onSignIn(formData);
+      const userToStore = {
+        id: userData.id,
+        username: userData.username,
+        year: userData.year,
+        major: userData.major,
+      };
+      localStorage.setItem('user', JSON.stringify(userToStore));
+      onSignIn(userToStore);
+    } catch (error) {
+      const errorMessage = error.response?.data?.detail || error.message || 'An error occurred';
+      setErrors({ submit: errorMessage });
     }
   };
 
@@ -98,50 +127,72 @@ function SignIn({ onSignIn }) {
             {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
 
-          <div className="form-group">
-            <label>
-              <FiCalendar className="label-icon" />
-              Year
-            </label>
-            <select
-              name="year"
-              value={formData.year}
-              onChange={handleChange}
-              className={errors.year ? 'error' : ''}
-            >
-              <option value="">Select your year</option>
-              {years.map(year => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
-            {errors.year && <span className="error-message">{errors.year}</span>}
-          </div>
+          {isSignUp && (
+            <>
+              <div className="form-group">
+                <label>
+                  <FiCalendar className="label-icon" />
+                  Year
+                </label>
+                <select
+                  name="year"
+                  value={formData.year}
+                  onChange={handleChange}
+                  className={errors.year ? 'error' : ''}
+                >
+                  <option value="">Select your year</option>
+                  {years.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+                {errors.year && <span className="error-message">{errors.year}</span>}
+              </div>
 
-          <div className="form-group">
-            <label>
-              <FiBook className="label-icon" />
-              Major
-            </label>
-            <select
-              name="major"
-              value={formData.major}
-              onChange={handleChange}
-              className={errors.major ? 'error' : ''}
-            >
-              <option value="">Select your major</option>
-              {majors.map(major => (
-                <option key={major} value={major}>{major}</option>
-              ))}
-            </select>
-            {errors.major && <span className="error-message">{errors.major}</span>}
-          </div>
+              <div className="form-group">
+                <label>
+                  <FiBook className="label-icon" />
+                  Major
+                </label>
+                <select
+                  name="major"
+                  value={formData.major}
+                  onChange={handleChange}
+                  className={errors.major ? 'error' : ''}
+                >
+                  <option value="">Select your major</option>
+                  {majors.map(major => (
+                    <option key={major} value={major}>{major}</option>
+                  ))}
+                </select>
+                {errors.major && <span className="error-message">{errors.major}</span>}
+              </div>
+            </>
+          )}
 
           <button type="submit" className="sign-in-button">
             <FiLogIn className="button-icon" />
-            <span>Sign In</span>
+            <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
             <FiArrowRight className="button-icon" />
           </button>
+          {errors.submit && <span className="error-message submit-error">{errors.submit}</span>}
         </form>
+
+        <div className="sign-in-switch">
+          <p>
+            {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
+            <button 
+              type="button" 
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setErrors({});
+                setFormData({ username: '', password: '', year: '', major: '' });
+              }}
+              className="switch-button"
+            >
+              {isSignUp ? 'Sign In' : 'Sign Up'}
+            </button>
+          </p>
+        </div>
 
         <p className="sign-in-note">
           Your information helps us provide personalized study assistance based on your major.
