@@ -98,6 +98,8 @@ function SignIn({ onSignIn }) {
       const userToStore = {
         id: userData.id,
         username: userData.username,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
         year: userData.year,
         major: userData.major,
       };
@@ -145,32 +147,6 @@ function SignIn({ onSignIn }) {
             {errors.username && <span className="error-message">{errors.username}</span>}
           </div>
 
-          <div className="form-group">
-            <label>
-              <FiLock className="label-icon" />
-              Password
-            </label>
-            <div className="password-input-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter your password"
-                className={errors.password ? 'error' : ''}
-                disabled={loading}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-                tabIndex={-1}
-              >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
-              </button>
-            </div>
-            {errors.password && <span className="error-message">{errors.password}</span>}
-          </div>
 
           {isSignUp && (
             <>
@@ -208,31 +184,60 @@ function SignIn({ onSignIn }) {
                 {errors.lastName && <span className="error-message">{errors.lastName}</span>}
               </div>
 
-              <div className="form-group">
-                <label>
-                  <FiLock className="label-icon" />
-                  Confirm Password
-                </label>
-                <div className="password-input-wrapper">
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="Confirm your password"
-                    className={errors.confirmPassword ? 'error' : ''}
-                    disabled={loading}
-                  />
-                  <button
-                    type="button"
-                    className="password-toggle"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    tabIndex={-1}
-                  >
-                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-                  </button>
+              <div className="password-fields-row">
+                <div className="form-group">
+                  <label>
+                    <FiLock className="label-icon" />
+                    Password
+                  </label>
+                  <div className="password-input-wrapper">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Enter your password"
+                      className={errors.password ? 'error' : ''}
+                      disabled={loading}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle"
+                      onClick={() => setShowPassword(!showPassword)}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.password && <span className="error-message">{errors.password}</span>}
                 </div>
-                {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+
+                <div className="form-group">
+                  <label>
+                    <FiLock className="label-icon" />
+                    Confirm Password
+                  </label>
+                  <div className="password-input-wrapper">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="Confirm your password"
+                      className={errors.confirmPassword ? 'error' : ''}
+                      disabled={loading}
+                    />
+                    <button
+                      type="button"
+                      className="password-toggle"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      tabIndex={-1}
+                    >
+                      {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+                </div>
               </div>
 
               <div className="form-group">

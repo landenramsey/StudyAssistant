@@ -111,7 +111,9 @@ function App() {
         <h1>Study Assistant</h1>
         <p className="uncw-badge">For UNC Wilmington Students</p>
         {user && (
-          <p className="user-info">Welcome, {user.username}! • {user.major} • {user.year}</p>
+          <p className="user-info">
+            Welcome, {user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.username}! • {user.major} • {user.year}
+          </p>
         )}
         <p>Transform your study materials into interactive learning tools</p>
       </header>
