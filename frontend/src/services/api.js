@@ -109,9 +109,17 @@ export const getUser = async (username) => {
 // Health check function
 export const checkHealth = async () => {
   try {
-    const response = await api.get('/api/health');
-    return { status: 'ok', data: response.data };
+    const response = await api.get('/api/health', { timeout: 5000 });
+    // Backend returns {status: "ok"} or {status: "healthy"}
+    const backendStatus = response.data?.status;
+    if (backendStatus === 'ok' || backendStatus === 'healthy') {
+      return { status: 'ok', data: response.data };
+    }
+    return { status: 'error', message: 'Backend returned unexpected status' };
   } catch (error) {
-    return { status: 'error', message: error.message };
+    if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK' || error.message?.includes('timeout')) {
+      return { status: 'error', message: 'Cannot connect to backend server' };
+    }
+    return { status: 'error', message: error.message || 'Backend connection failed' };
   }
 };

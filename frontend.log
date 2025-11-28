@@ -3,11 +3,8 @@
 > vite
 
 
-  VITE v5.4.21  ready in 155 ms
+  VITE v5.4.21  ready in 161 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
-3:00:01 PM [vite] hmr update /src/components/QuizGenerator.jsx
-3:00:02 PM [vite] hmr update /src/components/FlashcardGenerator.jsx
-3:00:39 PM [vite] hmr update /src/components/QuizGenerator.jsx
-3:00:39 PM [vite] hmr update /src/components/FlashcardGenerator.jsx
+4:55:55 PM [vite] hmr update /src/App.jsx, /src/components/SignIn.jsx, /src/components/DocumentUpload.jsx, /src/components/FlashcardGenerator.jsx, /src/components/QuizGenerator.jsx, /src/components/ChatInterface.jsx

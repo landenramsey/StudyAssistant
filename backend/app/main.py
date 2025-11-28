@@ -34,7 +34,7 @@ async def root():
 
 @app.get("/api/health")
 async def health():
-    return {"status": "healthy"}
+    return {"status": "ok", "message": "Backend is running"}
 
 @app.get("/api/test-openai")
 async def test_openai():
