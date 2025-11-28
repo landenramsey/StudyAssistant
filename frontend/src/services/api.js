@@ -66,21 +66,39 @@ export const generateFlashcards = async (text, numCards, documentIds = null) => 
 
 // Authentication functions
 export const signUp = async (username, password, year, major) => {
-  const response = await api.post('/api/auth/signup', {
-    username,
-    password,
-    year,
-    major,
-  });
-  return response.data;
+  try {
+    const response = await api.post('/api/auth/signup', {
+      username,
+      password,
+      year,
+      major,
+    }, {
+      timeout: 10000, // 10 seconds for auth
+    });
+    return response.data;
+  } catch (error) {
+    if (error.code === 'ECONNABORTED') {
+      throw new Error('Connection timeout. Please ensure the backend server is running.');
+    }
+    throw error;
+  }
 };
 
 export const signIn = async (username, password) => {
-  const response = await api.post('/api/auth/signin', {
-    username,
-    password,
-  });
-  return response.data;
+  try {
+    const response = await api.post('/api/auth/signin', {
+      username,
+      password,
+    }, {
+      timeout: 10000, // 10 seconds for auth
+    });
+    return response.data;
+  } catch (error) {
+    if (error.code === 'ECONNABORTED') {
+      throw new Error('Connection timeout. Please ensure the backend server is running.');
+    }
+    throw error;
+  }
 };
 
 export const getUser = async (username) => {

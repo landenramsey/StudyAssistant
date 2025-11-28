@@ -217,9 +217,9 @@
 }
 
 .feature-card:hover {
-  transform: translateY(-10px) scale(1.02);
+  transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-color: var(--card-color);
 }
 
@@ -232,7 +232,7 @@
 }
 
 .feature-card:hover .feature-icon {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.05);
 }
 
 .feature-card h3 {
@@ -273,8 +273,7 @@
 }
 
 .step-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .step-number {
@@ -350,8 +349,7 @@
 }
 
 .fact-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-color: #FFD100;
 }
 
@@ -413,7 +411,6 @@
 
 .timeline-item:hover {
   background: rgba(255, 255, 255, 0.15);
-  transform: translateX(10px);
 }
 
 .timeline-year {
@@ -449,29 +446,26 @@
 }
 
 .cta-button {
-  padding: 22px 50px;
-  background: linear-gradient(135deg, #FFD100 0%, #FFC700 100%);
+  padding: 18px 40px;
+  background: #FFD100;
   color: #006B7A;
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 1.4rem;
-  font-weight: 800;
+  font-size: 1.2rem;
+  font-weight: 700;
   font-family: 'Space Grotesk', sans-serif;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 30px rgba(255, 209, 0, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 209, 0, 0.3);
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   margin: 0 auto 20px;
 }
 
 .cta-button:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 45px rgba(255, 209, 0, 0.5);
-  background: linear-gradient(135deg, #FFE066 0%, #FFD100 100%);
+  background: #FFC700;
+  box-shadow: 0 4px 12px rgba(255, 209, 0, 0.4);
 }
 
 .cta-icon {

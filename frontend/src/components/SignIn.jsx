@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { FiUser, FiLock, FiCalendar, FiBook, FiArrowRight, FiLogIn } from 'react-icons/fi';
+import { FiUser, FiLock, FiCalendar, FiBook, FiArrowRight, FiLogIn, FiLoader } from 'react-icons/fi';
 import { HiAcademicCap } from 'react-icons/hi2';
 import { signUp, signIn } from '../services/api';
 import './SignIn.css';
 
 function SignIn({ onSignIn }) {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -55,6 +56,9 @@ function SignIn({ onSignIn }) {
     e.preventDefault();
     if (!validate()) return;
 
+    setLoading(true);
+    setErrors({});
+
     try {
       let userData;
       if (isSignUp) {
@@ -80,8 +84,17 @@ function SignIn({ onSignIn }) {
       localStorage.setItem('user', JSON.stringify(userToStore));
       onSignIn(userToStore);
     } catch (error) {
-      const errorMessage = error.response?.data?.detail || error.message || 'An error occurred';
+      let errorMessage = 'An error occurred';
+      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+        errorMessage = 'Request timed out. Please check if the backend server is running on http://localhost:8000';
+      } else if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
       setErrors({ submit: errorMessage });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -169,10 +182,19 @@ function SignIn({ onSignIn }) {
             </>
           )}
 
-          <button type="submit" className="sign-in-button">
-            <FiLogIn className="button-icon" />
-            <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
-            <FiArrowRight className="button-icon" />
+          <button type="submit" className="sign-in-button" disabled={loading}>
+            {loading ? (
+              <>
+                <FiLoader className="button-icon spinning" />
+                <span>Processing...</span>
+              </>
+            ) : (
+              <>
+                <FiLogIn className="button-icon" />
+                <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
+                <FiArrowRight className="button-icon" />
+              </>
+            )}
           </button>
           {errors.submit && <span className="error-message submit-error">{errors.submit}</span>}
         </form>
