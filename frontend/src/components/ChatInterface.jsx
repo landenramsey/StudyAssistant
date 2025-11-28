@@ -77,23 +77,36 @@ function ChatInterface({ documents, user }) {
                 </div>
                 {msg.sources.map((source, i) => (
                   <div key={i} className="source">
-                    <span className="source-text">{source.text || source}</span>
-                    {source.score !== undefined && (
-                      <div className="source-meta">
+                    <span className="source-text">{source.text || (typeof source === 'string' ? source : 'Source text unavailable')}</span>
+                    <div className="source-meta">
+                      {source.relevance && (
+                        <span className={`source-relevance ${source.relevance.toLowerCase()}`}>
+                          {source.relevance} Relevance
+                        </span>
+                      )}
+                      {source.score !== undefined && (
                         <span className="source-score">
                           <FiTrendingUp className="score-icon" />
-                          {typeof source.score === 'number' ? source.score.toFixed(2) : source.score}
+                          Score: {typeof source.score === 'number' ? source.score.toFixed(3) : source.score}
                         </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
             )}
-            {msg.confidence !== undefined && msg.confidence > 0 && (
+            {msg.confidence !== undefined && (
               <div className="confidence">
                 <FiTrendingUp className="confidence-icon" />
-                <span>Confidence: {(msg.confidence * 100).toFixed(1)}%</span>
+                <div>
+                  <span>Confidence: {(msg.confidence * 100).toFixed(1)}%</span>
+                  <div className="confidence-bar">
+                    <div 
+                      className="confidence-fill" 
+                      style={{ width: `${msg.confidence * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
               </div>
             )}
           </div>

@@ -166,3 +166,85 @@ WARNING:  WatchFiles detected changes in 'app/routers/questions.py'. Reloading..
 INFO:     Started server process [94915]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/models/schemas.py', 'app/routers/questions.py', 'app/services/rag.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [94915]
+INFO:     Started server process [96075]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:52224 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52226 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52226 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52226 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52226 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52226 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "OPTIONS /api/questions/ask HTTP/1.1" 200 OK
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO:     127.0.0.1:52228 - "POST /api/questions/ask HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52230 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52228 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52237 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52237 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52237 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52237 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52237 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52237 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52242 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52245 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52247 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52249 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52251 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52253 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52259 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52261 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52261 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52261 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52261 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52261 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52275 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52278 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52282 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52305 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52307 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52307 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52307 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52307 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52316 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52316 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52316 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52320 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52322 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52324 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52330 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52332 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52337 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52341 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52349 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52388 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52392 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52394 - "GET /api/health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/services/rag.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [96075]
+INFO:     Started server process [2346]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

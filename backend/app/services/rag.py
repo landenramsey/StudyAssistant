@@ -144,15 +144,24 @@ Answer:"""
             
             answer = response.choices[0].message.content
             
-            # Calculate average confidence from retrieved chunks
-            avg_confidence = sum(r['score'] for r in results) / len(results)
+            # Calculate confidence based on results
+            if results:
+                # Average confidence from retrieved chunks (scores are similarity scores 0-1)
+                avg_confidence = sum(r['score'] for r in results) / len(results)
+                # Normalize to 0-1 range and ensure reasonable confidence
+                avg_confidence = min(1.0, max(0.3, avg_confidence))
+            else:
+                # For general questions without documents, use a base confidence
+                # This represents confidence in the AI's general knowledge
+                avg_confidence = 0.75  # 75% confidence for general knowledge answers
             
             # Always include sources, even if empty
             sources_list = [
                 {
-                    "text": r['text'][:200] + "..." if len(r['text']) > 200 else r['text'],
-                    "document_id": r['document_id'],
-                    "score": round(r['score'], 3)
+                    "text": r['text'][:300] + "..." if len(r['text']) > 300 else r['text'],
+                    "document_id": r.get('document_id', 'unknown'),
+                    "score": round(r['score'], 3),
+                    "relevance": "High" if r['score'] > 0.7 else "Medium" if r['score'] > 0.5 else "Low"
                 }
                 for r in results
             ] if results else []
@@ -160,7 +169,7 @@ Answer:"""
             return {
                 "answer": answer,
                 "sources": sources_list,
-                "confidence": round(avg_confidence, 3) if results else 0.0
+                "confidence": round(avg_confidence, 3)
             }
         except Exception as e:
             import traceback
