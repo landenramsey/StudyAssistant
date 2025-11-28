@@ -48,26 +48,23 @@ def get_password_hash(password: str) -> str:
 @router.post("/signup", response_model=UserResponse)
 async def signup(user_data: UserSignUp, db: Session = Depends(get_db)):
     """Create a new user account."""
-    # Validate email format
-    if not user_data.email.endswith('@uncw.edu'):
+    # Validate email format (username is the email)
+    if not user_data.username.endswith('@uncw.edu'):
         raise HTTPException(status_code=400, detail="Please use your UNCW email address (@uncw.edu)")
     
-    # Check if username already exists
+    # Check if username (email) already exists
     existing_user = db.query(User).filter(User.username == user_data.username).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Username already exists")
-    
-    # Check if email already exists
-    existing_email = db.query(User).filter(User.email == user_data.email).first()
-    if existing_email:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="This email is already registered")
     
     # Create new user
     hashed_password = get_password_hash(user_data.password)
     new_user = User(
-        username=user_data.username,
+        username=user_data.username,  # Username is the email
         password_hash=hashed_password,
-        email=user_data.email,
+        first_name=user_data.first_name,
+        last_name=user_data.last_name,
+        email=user_data.username,  # Also store in email field for backwards compatibility
         year=user_data.year,
         major=user_data.major
     )
@@ -79,6 +76,8 @@ async def signup(user_data: UserSignUp, db: Session = Depends(get_db)):
     return UserResponse(
         id=new_user.id,
         username=new_user.username,
+        first_name=new_user.first_name,
+        last_name=new_user.last_name,
         email=new_user.email,
         year=new_user.year,
         major=new_user.major,
