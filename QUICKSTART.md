@@ -101,11 +101,27 @@ npm run dev
    ```
    Make sure `OPENAI_API_KEY` is set correctly.
 
-3. **Reinstall dependencies:**
+3. **Check backend logs for errors:**
+   ```bash
+   tail -20 backend.log
+   ```
+   Common issues:
+   - Missing dependencies (run `pip install -r requirements.txt`)
+   - Database initialization errors
+   - Import errors
+
+4. **Reinstall dependencies:**
    ```bash
    cd backend
    source venv/bin/activate
    pip install -r requirements.txt
+   ```
+
+5. **Verify database is initialized:**
+   ```bash
+   cd backend
+   source venv/bin/activate
+   python3 -c "from app.database import engine, Base, User; Base.metadata.create_all(bind=engine); print('✅ Database OK')"
    ```
 
 ### Frontend won't start?
@@ -131,9 +147,28 @@ npm run dev
 
 ### "Cannot connect to server" error?
 
-1. Make sure the backend is running (check Terminal 1)
-2. Verify backend is on http://localhost:8000
-3. Check the connection status indicator in the app
+1. **Make sure the backend is running:**
+   ```bash
+   lsof -i :8000
+   ```
+   If nothing shows, start the backend:
+   ```bash
+   ./start.sh
+   # Or manually:
+   cd backend && source venv/bin/activate && uvicorn app.main:app --reload
+   ```
+
+2. **Verify backend is on http://localhost:8000:**
+   ```bash
+   curl http://localhost:8000/api/health
+   ```
+   Should return: `{"status":"healthy"}`
+
+3. **Check the connection status indicator** in the app (top-right corner)
+4. **Check backend logs** for startup errors:
+   ```bash
+   tail -20 backend.log
+   ```
 
 ---
 
@@ -144,19 +179,25 @@ npm run dev
 - [ ] OpenAI API key obtained
 - [ ] Backend dependencies installed (`pip install -r requirements.txt`)
 - [ ] Frontend dependencies installed (`npm install`)
-- [ ] `.env` file created with `OPENAI_API_KEY`
-- [ ] Backend server running
+- [ ] `.env` file created with `OPENAI_API_KEY` in `backend/` folder
+- [ ] Database initialized (automatic on first run)
+- [ ] Backend server running (check `backend.log` if issues)
 - [ ] Frontend server running
 - [ ] Browser opened to http://localhost:5173
+- [ ] Account created (sign up with username, password, year, major)
 
 ---
 
 ## 🎓 Using the App
 
-1. **Upload Documents** - Go to "Upload Documents" tab and upload PDFs, Word docs, or text files
-2. **Ask Questions** - Switch to "Ask Questions" and ask anything about your documents
-3. **Generate Quiz** - Create practice quizzes from your study materials
-4. **Create Flashcards** - Automatically generate flashcards from your documents
+1. **Sign In/Sign Up** - Create an account (username, password, year, major). Your account is saved and remembered!
+2. **Landing Page** - Explore features, learn how it works, and discover UNCW information
+3. **Upload Documents** - Go to "Upload Documents" tab and upload PDFs, Word docs, or text files
+4. **Ask Questions** - Switch to "Ask Questions" and ask anything (about your documents or general topics)
+5. **Generate Quiz** - Create practice quizzes from your study materials on specific topics
+6. **Create Flashcards** - Automatically generate flashcards from your documents
+7. **Study Planner** - Use Pomodoro timer (25-min focus sessions) and track study goals
+8. **UNCW Resources** - Quick access to library, STEM lab, and campus services
 
 ---
 
