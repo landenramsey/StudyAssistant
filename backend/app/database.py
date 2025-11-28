@@ -28,6 +28,28 @@ class User(Base):
 # Create tables
 Base.metadata.create_all(bind=engine)
 
+# Migrate existing databases to add email column if needed
+def migrate_email_column():
+    """Add email column to existing databases."""
+    import sqlite3
+    if DB_PATH.exists():
+        conn = sqlite3.connect(str(DB_PATH))
+        cursor = conn.cursor()
+        try:
+            cursor.execute("PRAGMA table_info(users)")
+            columns = [col[1] for col in cursor.fetchall()]
+            if 'email' not in columns:
+                cursor.execute("ALTER TABLE users ADD COLUMN email VARCHAR;")
+                cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS ix_users_email ON users(email);")
+                conn.commit()
+        except Exception:
+            conn.rollback()
+        finally:
+            conn.close()
+
+# Run migration on import
+migrate_email_column()
+
 def get_db():
     """Get database session."""
     db = SessionLocal()
