@@ -11,6 +11,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class UserSignUp(BaseModel):
     username: str
     password: str
+    email: str
     year: str
     major: str
 
@@ -21,6 +22,7 @@ class UserSignIn(BaseModel):
 class UserResponse(BaseModel):
     id: int
     username: str
+    email: str = None
     year: str
     major: str
     created_at: str
@@ -43,16 +45,26 @@ def get_password_hash(password: str) -> str:
 @router.post("/signup", response_model=UserResponse)
 async def signup(user_data: UserSignUp, db: Session = Depends(get_db)):
     """Create a new user account."""
+    # Validate email format
+    if not user_data.email.endswith('@uncw.edu'):
+        raise HTTPException(status_code=400, detail="Please use your UNCW email address (@uncw.edu)")
+    
     # Check if username already exists
     existing_user = db.query(User).filter(User.username == user_data.username).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Username already exists")
+    
+    # Check if email already exists
+    existing_email = db.query(User).filter(User.email == user_data.email).first()
+    if existing_email:
+        raise HTTPException(status_code=400, detail="Email already registered")
     
     # Create new user
     hashed_password = get_password_hash(user_data.password)
     new_user = User(
         username=user_data.username,
         password_hash=hashed_password,
+        email=user_data.email,
         year=user_data.year,
         major=user_data.major
     )
@@ -64,6 +76,7 @@ async def signup(user_data: UserSignUp, db: Session = Depends(get_db)):
     return UserResponse(
         id=new_user.id,
         username=new_user.username,
+        email=new_user.email,
         year=new_user.year,
         major=new_user.major,
         created_at=new_user.created_at.isoformat() if new_user.created_at else "",
@@ -88,6 +101,7 @@ async def signin(user_data: UserSignIn, db: Session = Depends(get_db)):
     return UserResponse(
         id=user.id,
         username=user.username,
+        email=user.email,
         year=user.year,
         major=user.major,
         created_at=user.created_at.isoformat() if user.created_at else "",
@@ -105,6 +119,7 @@ async def get_user(username: str, db: Session = Depends(get_db)):
     return UserResponse(
         id=user.id,
         username=user.username,
+        email=user.email,
         year=user.year,
         major=user.major,
         created_at=user.created_at.isoformat() if user.created_at else "",

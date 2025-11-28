@@ -1,15 +1,7 @@
 INFO:     Will watch for changes in these directories: ['/Users/landenramsey/Downloads/Projects/StudyAssistant/backend']
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [32900] using WatchFiles
-INFO:     Started server process [32903]
+INFO:     Started reloader process [35845] using WatchFiles
+INFO:     Started server process [35849]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     127.0.0.1:54008 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54022 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54024 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54024 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54027 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54027 - "OPTIONS /api/auth/signup HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54027 - "POST /api/auth/signup HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54029 - "POST /api/auth/signup HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54027 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54215 - "GET /api/health HTTP/1.1" 200 OK

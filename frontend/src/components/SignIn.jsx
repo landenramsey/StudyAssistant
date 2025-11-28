@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiUser, FiLock, FiCalendar, FiBook, FiArrowRight, FiLogIn, FiLoader } from 'react-icons/fi';
+import { FiUser, FiLock, FiCalendar, FiBook, FiArrowRight, FiLogIn, FiLoader, FiEye, FiEyeOff, FiMail } from 'react-icons/fi';
 import { HiAcademicCap } from 'react-icons/hi2';
 import { signUp, signIn } from '../services/api';
 import './SignIn.css';
@@ -7,9 +7,13 @@ import './SignIn.css';
 function SignIn({ onSignIn }) {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    confirmPassword: '',
+    email: '',
     year: '',
     major: ''
   });
@@ -41,6 +45,16 @@ function SignIn({ onSignIn }) {
       newErrors.password = 'Password is required';
     }
     if (isSignUp) {
+      if (!formData.email.trim()) {
+        newErrors.email = 'UNCW email is required';
+      } else if (!formData.email.endsWith('@uncw.edu')) {
+        newErrors.email = 'Please use your UNCW email (@uncw.edu)';
+      }
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = 'Please confirm your password';
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
+      }
       if (!formData.year) {
         newErrors.year = 'Please select your year';
       }
@@ -66,6 +80,7 @@ function SignIn({ onSignIn }) {
         userData = await signUp(
           formData.username,
           formData.password,
+          formData.email,
           formData.year,
           formData.major
         );
@@ -129,19 +144,74 @@ function SignIn({ onSignIn }) {
               <FiLock className="label-icon" />
               Password
             </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              className={errors.password ? 'error' : ''}
-            />
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                className={errors.password ? 'error' : ''}
+                disabled={loading}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
             {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
 
           {isSignUp && (
             <>
+              <div className="form-group">
+                <label>
+                  <FiMail className="label-icon" />
+                  UNCW Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="yourname@uncw.edu"
+                  className={errors.email ? 'error' : ''}
+                  disabled={loading}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <FiLock className="label-icon" />
+                  Confirm Password
+                </label>
+                <div className="password-input-wrapper">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm your password"
+                    className={errors.confirmPassword ? 'error' : ''}
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    tabIndex={-1}
+                  >
+                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+                {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+              </div>
+
               <div className="form-group">
                 <label>
                   <FiCalendar className="label-icon" />
@@ -207,7 +277,9 @@ function SignIn({ onSignIn }) {
               onClick={() => {
                 setIsSignUp(!isSignUp);
                 setErrors({});
-                setFormData({ username: '', password: '', year: '', major: '' });
+                setShowPassword(false);
+                setShowConfirmPassword(false);
+                setFormData({ username: '', password: '', confirmPassword: '', email: '', year: '', major: '' });
               }}
               className="switch-button"
             >

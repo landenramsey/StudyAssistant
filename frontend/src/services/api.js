@@ -67,11 +67,12 @@ export const generateFlashcards = async (text, numCards, documentIds = null) => 
 };
 
 // Authentication functions
-export const signUp = async (username, password, year, major) => {
+export const signUp = async (username, password, email, year, major) => {
   try {
     const response = await api.post('/api/auth/signup', {
       username,
       password,
+      email,
       year,
       major,
     }, {
