@@ -67,12 +67,13 @@ export const generateFlashcards = async (text, numCards, documentIds = null) => 
 };
 
 // Authentication functions
-export const signUp = async (username, password, email, year, major) => {
+export const signUp = async (username, password, firstName, lastName, year, major) => {
   try {
     const response = await api.post('/api/auth/signup', {
-      username,
+      username,  // This is the UNCW email
       password,
-      email,
+      first_name: firstName,
+      last_name: lastName,
       year,
       major,
     }, {

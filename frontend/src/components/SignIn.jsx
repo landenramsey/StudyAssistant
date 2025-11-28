@@ -10,10 +10,11 @@ function SignIn({ onSignIn }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    username: '',  // This will be the UNCW email
     password: '',
     confirmPassword: '',
-    email: '',
+    firstName: '',
+    lastName: '',
     year: '',
     major: ''
   });
@@ -39,16 +40,19 @@ function SignIn({ onSignIn }) {
   const validate = () => {
     const newErrors = {};
     if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
+      newErrors.username = 'UNCW email is required';
+    } else if (!formData.username.endsWith('@uncw.edu')) {
+      newErrors.username = 'Please use your UNCW email (@uncw.edu)';
     }
     if (!formData.password) {
       newErrors.password = 'Password is required';
     }
     if (isSignUp) {
-      if (!formData.email.trim()) {
-        newErrors.email = 'UNCW email is required';
-      } else if (!formData.email.endsWith('@uncw.edu')) {
-        newErrors.email = 'Please use your UNCW email (@uncw.edu)';
+      if (!formData.firstName.trim()) {
+        newErrors.firstName = 'First name is required';
+      }
+      if (!formData.lastName.trim()) {
+        newErrors.lastName = 'Last name is required';
       }
       if (!formData.confirmPassword) {
         newErrors.confirmPassword = 'Please confirm your password';
@@ -76,11 +80,12 @@ function SignIn({ onSignIn }) {
     try {
       let userData;
       if (isSignUp) {
-        // Sign up new user
+        // Sign up new user (username is the email)
         userData = await signUp(
-          formData.username,
+          formData.username,  // This is the UNCW email
           formData.password,
-          formData.email,
+          formData.firstName,
+          formData.lastName,
           formData.year,
           formData.major
         );
@@ -125,16 +130,17 @@ function SignIn({ onSignIn }) {
         <form onSubmit={handleSubmit} className="sign-in-form">
           <div className="form-group">
             <label>
-              <FiUser className="label-icon" />
-              Username
+              <FiMail className="label-icon" />
+              {isSignUp ? 'UNCW Email' : 'UNCW Email (Username)'}
             </label>
             <input
-              type="text"
+              type="email"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Enter your username"
+              placeholder="yourname@uncw.edu"
               className={errors.username ? 'error' : ''}
+              disabled={loading}
             />
             {errors.username && <span className="error-message">{errors.username}</span>}
           </div>
@@ -170,19 +176,36 @@ function SignIn({ onSignIn }) {
             <>
               <div className="form-group">
                 <label>
-                  <FiMail className="label-icon" />
-                  UNCW Email
+                  <FiUser className="label-icon" />
+                  First Name
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
-                  placeholder="yourname@uncw.edu"
-                  className={errors.email ? 'error' : ''}
+                  placeholder="Enter your first name"
+                  className={errors.firstName ? 'error' : ''}
                   disabled={loading}
                 />
-                {errors.email && <span className="error-message">{errors.email}</span>}
+                {errors.firstName && <span className="error-message">{errors.firstName}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <FiUser className="label-icon" />
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter your last name"
+                  className={errors.lastName ? 'error' : ''}
+                  disabled={loading}
+                />
+                {errors.lastName && <span className="error-message">{errors.lastName}</span>}
               </div>
 
               <div className="form-group">
@@ -279,7 +302,7 @@ function SignIn({ onSignIn }) {
                 setErrors({});
                 setShowPassword(false);
                 setShowConfirmPassword(false);
-                setFormData({ username: '', password: '', confirmPassword: '', email: '', year: '', major: '' });
+                setFormData({ username: '', password: '', confirmPassword: '', firstName: '', lastName: '', year: '', major: '' });
               }}
               className="switch-button"
             >

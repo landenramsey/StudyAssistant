@@ -9,9 +9,10 @@ router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class UserSignUp(BaseModel):
-    username: str
+    username: str  # This will be the UNCW email
     password: str
-    email: str
+    first_name: str
+    last_name: str
     year: str
     major: str
 
@@ -21,8 +22,10 @@ class UserSignIn(BaseModel):
 
 class UserResponse(BaseModel):
     id: int
-    username: str
-    email: str = None
+    username: str  # This is the email
+    first_name: str = None
+    last_name: str = None
+    email: str = None  # Keep for backwards compatibility
     year: str
     major: str
     created_at: str
@@ -101,6 +104,8 @@ async def signin(user_data: UserSignIn, db: Session = Depends(get_db)):
     return UserResponse(
         id=user.id,
         username=user.username,
+        first_name=user.first_name,
+        last_name=user.last_name,
         email=user.email,
         year=user.year,
         major=user.major,
@@ -119,6 +124,8 @@ async def get_user(username: str, db: Session = Depends(get_db)):
     return UserResponse(
         id=user.id,
         username=user.username,
+        first_name=user.first_name,
+        last_name=user.last_name,
         email=user.email,
         year=user.year,
         major=user.major,
