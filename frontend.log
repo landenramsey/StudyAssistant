@@ -8,3 +8,5 @@
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
 4:55:55 PM [vite] hmr update /src/App.jsx, /src/components/SignIn.jsx, /src/components/DocumentUpload.jsx, /src/components/FlashcardGenerator.jsx, /src/components/QuizGenerator.jsx, /src/components/ChatInterface.jsx
+4:56:44 PM [vite] hmr update /src/App.jsx, /src/components/SignIn.jsx, /src/components/DocumentUpload.jsx, /src/components/FlashcardGenerator.jsx, /src/components/QuizGenerator.jsx, /src/components/ChatInterface.jsx
+4:58:44 PM [vite] hmr update /src/App.jsx, /src/components/SignIn.jsx, /src/components/DocumentUpload.jsx, /src/components/FlashcardGenerator.jsx, /src/components/QuizGenerator.jsx, /src/components/ChatInterface.jsx

@@ -14,8 +14,10 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.code === 'ECONNREFUSED' || error.message.includes('Network Error')) {
+    if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK' || error.message.includes('Network Error')) {
       error.message = 'Cannot connect to server. Make sure the backend is running on http://localhost:8000';
+    } else if (error.code === 'ECONNABORTED') {
+      error.message = 'Request timed out. The backend may be slow or not responding.';
     }
     return Promise.reject(error);
   }
