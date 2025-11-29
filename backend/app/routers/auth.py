@@ -14,7 +14,7 @@ class UserSignUp(BaseModel):
     first_name: str
     last_name: str
     year: str
-    major: str
+    major: str  # Comma-separated list of majors for double majors
 
 class UserSignIn(BaseModel):
     username: str

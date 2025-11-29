@@ -15,6 +15,9 @@ rag_service = RAGService(vector_store, embedding_service)
 @router.post("/ask", response_model=QuestionResponse)
 async def ask_question(request: QuestionRequest):
     """Answer a question using RAG."""
+    # Reload vector store to ensure we have the latest documents
+    vector_store.load(embedding_service.get_dimension())
+    
     result = rag_service.answer_question(
         question=request.question,
         document_ids=request.document_ids,

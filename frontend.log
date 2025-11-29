@@ -3,8 +3,14 @@
 > vite
 
 
-  VITE v5.4.21  ready in 173 ms
+  VITE v5.4.21  ready in 168 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
-5:22:56 PM [vite] hmr update /src/components/SignIn.jsx
+9:36:37 AM [vite] hmr update /src/components/SignIn.jsx
+9:36:38 AM [vite] hmr update /src/components/SignIn.jsx
+9:36:40 AM [vite] hmr update /src/components/SignIn.jsx
+9:36:40 AM [vite] hmr update /src/components/SignIn.jsx
+9:36:41 AM [vite] hmr update /src/components/SignIn.jsx
+9:36:45 AM [vite] hmr update /src/components/SignIn.jsx
+9:36:48 AM [vite] hmr update /src/components/SignIn.css

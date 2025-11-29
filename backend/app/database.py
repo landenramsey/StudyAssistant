@@ -23,7 +23,7 @@ class User(Base):
     last_name = Column(String, nullable=True)
     email = Column(String, unique=True, index=True, nullable=True)  # Keep for backwards compatibility
     year = Column(String, nullable=False)
-    major = Column(String, nullable=False)
+    major = Column(String, nullable=False)  # Comma-separated list of majors for double majors
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime, default=datetime.utcnow)
 

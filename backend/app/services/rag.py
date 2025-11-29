@@ -74,11 +74,19 @@ class RAGService:
         # Build user context for personalization
         user_context = ""
         if user_major:
-            user_context += f"The student is a {user_major} major"
+            # Handle multiple majors (comma-separated)
+            majors = [m.strip() for m in user_major.split(',') if m.strip()]
+            if len(majors) == 1:
+                user_context += f"The student is a {majors[0]} major"
+            elif len(majors) == 2:
+                user_context += f"The student is double majoring in {majors[0]} and {majors[1]}"
+            else:
+                user_context += f"The student is majoring in {', '.join(majors[:-1])}, and {majors[-1]}"
+            
             if user_year:
                 user_context += f" in their {user_year} year"
             user_context += ". "
-            user_context += "Tailor your answer to be relevant to their field of study. Use examples and terminology appropriate for their major when helpful. "
+            user_context += "Tailor your answer to be relevant to their field(s) of study. Use examples and terminology appropriate for their major(s) when helpful. "
         
         # Generate answer using LLM - support both document-based and general questions
         if has_results:

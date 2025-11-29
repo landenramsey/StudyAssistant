@@ -1,31 +1,7 @@
 INFO:     Will watch for changes in these directories: ['/Users/landenramsey/Downloads/Projects/StudyAssistant/backend']
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [45098] using WatchFiles
-INFO:     Started server process [45101]
+INFO:     Started reloader process [45723] using WatchFiles
+INFO:     Started server process [45726]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     127.0.0.1:54763 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54765 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54765 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54770 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54770 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54770 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54770 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54774 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54774 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54774 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54777 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54777 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54777 - "POST /api/auth/signup HTTP/1.1" 400 Bad Request
-INFO:     127.0.0.1:54777 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54777 - "POST /api/auth/signup HTTP/1.1" 400 Bad Request
-INFO:     127.0.0.1:54777 - "POST /api/auth/signup HTTP/1.1" 400 Bad Request
-INFO:     127.0.0.1:54777 - "POST /api/auth/signup HTTP/1.1" 400 Bad Request
-INFO:     127.0.0.1:54777 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54777 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54784 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54786 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54788 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54790 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54806 - "GET /api/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54819 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60655 - "GET /api/health HTTP/1.1" 200 OK

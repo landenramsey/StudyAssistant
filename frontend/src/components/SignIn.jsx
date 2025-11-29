@@ -18,6 +18,7 @@ function SignIn({ onSignIn }) {
     year: '',
     major: ''
   });
+  const [selectedMajors, setSelectedMajors] = useState([]);
   const [errors, setErrors] = useState({});
 
   const years = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
@@ -34,6 +35,24 @@ function SignIn({ onSignIn }) {
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const handleMajorToggle = (major) => {
+    setSelectedMajors(prev => {
+      if (prev.includes(major)) {
+        const updated = prev.filter(m => m !== major);
+        setFormData(prevData => ({ ...prevData, major: updated.join(', ') }));
+        return updated;
+      } else {
+        const updated = [...prev, major];
+        setFormData(prevData => ({ ...prevData, major: updated.join(', ') }));
+        return updated;
+      }
+    });
+    // Clear error when selecting
+    if (errors.major) {
+      setErrors(prev => ({ ...prev, major: '' }));
     }
   };
 
@@ -62,8 +81,8 @@ function SignIn({ onSignIn }) {
       if (!formData.year) {
         newErrors.year = 'Please select your year';
       }
-      if (!formData.major) {
-        newErrors.major = 'Please select your major';
+      if (!formData.major || selectedMajors.length === 0) {
+        newErrors.major = 'Please select at least one major';
       }
     }
     setErrors(newErrors);
@@ -290,19 +309,29 @@ function SignIn({ onSignIn }) {
               <div className="form-group">
                 <label>
                   <FiBook className="label-icon" />
-                  Major
+                  Major(s) {selectedMajors.length > 0 && `(${selectedMajors.length} selected)`}
                 </label>
-                <select
-                  name="major"
-                  value={formData.major}
-                  onChange={handleChange}
-                  className={errors.major ? 'error' : ''}
-                >
-                  <option value="">Select your major</option>
-                  {majors.map(major => (
-                    <option key={major} value={major}>{major}</option>
-                  ))}
-                </select>
+                <div className="major-selection">
+                  <div className="major-checkboxes">
+                    {majors.map(major => (
+                      <label key={major} className="major-checkbox-label">
+                        <input
+                          type="checkbox"
+                          checked={selectedMajors.includes(major)}
+                          onChange={() => handleMajorToggle(major)}
+                          disabled={loading}
+                        />
+                        <span>{major}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {selectedMajors.length > 0 && (
+                    <div className="selected-majors">
+                      <strong>Selected: </strong>
+                      {selectedMajors.join(', ')}
+                    </div>
+                  )}
+                </div>
                 {errors.major && <span className="error-message">{errors.major}</span>}
               </div>
             </>
@@ -336,6 +365,7 @@ function SignIn({ onSignIn }) {
                 setShowPassword(false);
                 setShowConfirmPassword(false);
                 setFormData({ username: '', password: '', confirmPassword: '', firstName: '', lastName: '', year: '', major: '' });
+                setSelectedMajors([]);
               }}
               className="switch-button"
             >
