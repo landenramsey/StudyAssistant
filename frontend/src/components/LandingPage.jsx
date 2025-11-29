@@ -87,7 +87,9 @@ function LandingPage({ onGetStarted, onLogout, user }) {
     <div className="landing-page">
       {user && (
         <div className="landing-user-bar">
-          <span>Welcome back, {user.username}!</span>
+          <span>
+            Welcome back, {user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.username}!
+          </span>
           <button onClick={onLogout} className="logout-button-landing">
             <FiLogOut className="logout-icon" />
             <span>Sign Out</span>
